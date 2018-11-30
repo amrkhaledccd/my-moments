@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: instaclone-auth
+  jpa:
+    hibernate:
+      ddl-auto: update
+  main:
+    allow-bean-definition-overriding: true
+
+server:
+  port: 9000
+
+security:
+  basic:
+    enable: false
