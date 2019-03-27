@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Role {
 
+    public final static Role USER = new Role("USER");
+
     private String name;
 }
 

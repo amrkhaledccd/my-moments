@@ -1,11 +1,10 @@
 spring:
   application:
     name: instaclone-auth
-  jpa:
-    hibernate:
-      ddl-auto: update
-  main:
-    allow-bean-definition-overriding: true
+
+  data:
+    mongodb:
+      database: instaclone_auth
 
 server:
   port: 9000
@@ -13,3 +12,10 @@ server:
 security:
   basic:
     enable: false
+
+  jwt:
+    uri: /auth/**
+    header: Authorization
+    prefix: Bearer
+    expiration: 86400
+    secret: JwtSecretKey
