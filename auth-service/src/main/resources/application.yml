@@ -1,6 +1,6 @@
 spring:
   application:
-    name: instaclone-auth
+    name: insta-auth
 
   data:
     mongodb:
@@ -9,6 +9,11 @@ spring:
 server:
   port: 9000
 
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka
+      
 security:
   basic:
     enable: false

@@ -8,6 +8,7 @@ import com.clone.instagram.authservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -26,7 +27,7 @@ public class UserEndpoint {
     }
 
     @GetMapping("/users/{username}")
-    public ResponseEntity<?> findUser(@PathVariable String username) {
+    public ResponseEntity<?> findUser(@PathVariable("username") String username) {
         log.info("retrieving user {}", username);
 
         return  userService
