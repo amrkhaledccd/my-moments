@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: insta-gateway
+
+server:
+  port: 8762
+
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka
+
+zuul:
+  ignored-services: '*'
+  routes:
+    insta-auth:
+      path: /auth/**
+      service-id: insta-auth
+      sensitive-headers: Cookie,Set-Cookie
+
+security:
+  basic:
+    enable: false
+
+  jwt:
+    uri: /auth/**
+    header: Authorization
+    prefix: Bearer
+    expiration: 86400
+    secret: JwtSecretKey
