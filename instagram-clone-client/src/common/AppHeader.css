@@ -1,0 +1,24 @@
+.ant-menu-horizontal {
+  line-height: 77px;
+}
+
+.app-logo-container a {
+  font-family: Titillium Web;
+  text-decoration: none;
+  line-height: 64px;
+  font-size: 21px;
+  display: inline-block;
+  color: rgba(0, 0, 0, 0.65) !important;
+}
+
+.app-logo-container a:hover {
+  text-decoration: none;
+}
+
+.app-logo-container img {
+  width: 160px;
+}
+
+.app-menu > li {
+  font-size: 18px;
+}

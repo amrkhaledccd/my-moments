@@ -1,0 +1,44 @@
+.login-container {
+  max-width: 420px;
+  margin: 0 auto;
+  margin: 0 auto;
+  margin-top: 40px;
+  padding: 50px 50px 0px 50px;
+  border: 1px solid #e1e0e0;
+  background-color: #fff;
+}
+
+.signup-link-container {
+  display: flex;
+  justify-content: center;
+  max-width: 420px;
+  margin: 0 auto;
+  margin: 0 auto;
+  margin-top: 10px;
+  padding: 20px;
+  border: 1px solid #e1e0e0;
+  background-color: #fff;
+  color: #999;
+}
+
+.signup-link-container a {
+  margin-left: 5px;
+  font-weight: bold;
+  color: #003569;
+}
+
+.login-form-button {
+  width: 100%;
+}
+
+.ant-form-item-with-help {
+  margin-bottom: 10px;
+}
+
+.logo-container {
+  margin-bottom: 50px;
+}
+
+.login-container img {
+  width: 200px;
+}
