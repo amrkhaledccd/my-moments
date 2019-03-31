@@ -3,10 +3,12 @@ package com.clone.instagram.authservice.endpoint;
 import com.clone.instagram.authservice.exception.*;
 import com.clone.instagram.authservice.model.Profile;
 import com.clone.instagram.authservice.model.User;
+import com.clone.instagram.authservice.payload.ApiResponse;
 import com.clone.instagram.authservice.payload.SignUpRequest;
 import com.clone.instagram.authservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +28,7 @@ public class UserEndpoint {
         this.userService = userService;
     }
 
-    @GetMapping("/users/{username}")
+    @GetMapping(value = "/users/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findUser(@PathVariable("username") String username) {
         log.info("retrieving user {}", username);
 
@@ -37,7 +39,7 @@ public class UserEndpoint {
     }
 
 
-    @PostMapping("/users")
+    @PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createUser(@Valid @RequestBody SignUpRequest payload) {
         log.info("creating user {}", payload.getUsername());
 
@@ -62,6 +64,8 @@ public class UserEndpoint {
                 .fromCurrentContextPath().path("/users/{username}")
                 .buildAndExpand(user.getUsername()).toUri();
 
-        return ResponseEntity.created(location).body("User registered successfully");
+        return ResponseEntity
+                .created(location)
+                .body(new ApiResponse(true,"User registered successfully"));
     }
 }
