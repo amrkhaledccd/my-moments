@@ -27,7 +27,7 @@ const request = options => {
 
 export function login(loginRequest) {
   return request({
-    url: API_BASE_URL + "/auth/auth",
+    url: API_BASE_URL + "/auth/signin",
     method: "POST",
     body: JSON.stringify(loginRequest)
   });
@@ -38,5 +38,16 @@ export function signup(signupRequest) {
     url: API_BASE_URL + "/auth/users",
     method: "POST",
     body: JSON.stringify(signupRequest)
+  });
+}
+
+export function getCurrentUser() {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+
+  return request({
+    url: API_BASE_URL + "/auth/users/me",
+    method: "GET"
   });
 }

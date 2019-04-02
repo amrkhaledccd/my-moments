@@ -31,6 +31,12 @@ class Signup extends Component {
     }
   };
 
+  componentDidMount = () => {
+    if (this.props.isAuthenticated) {
+      this.props.history.push("/");
+    }
+  };
+
   handleSubmit = e => {
     e.preventDefault();
 

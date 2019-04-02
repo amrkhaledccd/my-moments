@@ -1,16 +1,23 @@
 package com.clone.instagram.authservice.endpoint;
 
 import com.clone.instagram.authservice.exception.*;
+import com.clone.instagram.authservice.model.InstaUserDetails;
 import com.clone.instagram.authservice.model.Profile;
 import com.clone.instagram.authservice.model.User;
-import com.clone.instagram.authservice.payload.ApiResponse;
-import com.clone.instagram.authservice.payload.SignUpRequest;
+import com.clone.instagram.authservice.payload.*;
+import com.clone.instagram.authservice.service.JwtTokenProvider;
 import com.clone.instagram.authservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -22,22 +29,31 @@ import java.security.Principal;
 @Slf4j
 public class UserEndpoint {
 
+    @Autowired
     private UserService userService;
 
-    public UserEndpoint(UserService userService) {
-        this.userService = userService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtTokenProvider tokenProvider;
+
+
+    @PostMapping("/signin")
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getUsername(),
+                        loginRequest.getPassword()
+                )
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String jwt = tokenProvider.generateToken(authentication);
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
     }
-
-    @GetMapping(value = "/users/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> findUser(@PathVariable("username") String username) {
-        log.info("retrieving user {}", username);
-
-        return  userService
-                .findByUsername(username)
-                .map(user -> ResponseEntity.ok(user))
-                .orElseThrow(() -> new ResourceNotFoundException(username));
-    }
-
 
     @PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createUser(@Valid @RequestBody SignUpRequest payload) {
@@ -67,5 +83,30 @@ public class UserEndpoint {
         return ResponseEntity
                 .created(location)
                 .body(new ApiResponse(true,"User registered successfully"));
+    }
+
+    @GetMapping(value = "/users/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("#username == authentication.name")
+    public ResponseEntity<?> findUser(@PathVariable("username") String username) {
+        log.info("retrieving user {}", username);
+
+        return  userService
+                .findByUsername(username)
+                .map(user -> ResponseEntity.ok(user))
+                .orElseThrow(() -> new ResourceNotFoundException(username));
+    }
+
+
+    @GetMapping(value = "/users/me", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('USER')")
+    @ResponseStatus(HttpStatus.OK)
+    public UserSummary getCurrentUser(@AuthenticationPrincipal InstaUserDetails userDetails) {
+        return UserSummary
+                .builder()
+                .id(userDetails.getId())
+                .username(userDetails.getUsername())
+                .name(userDetails.getUserProfile().getDisplayName())
+                .profilePicture(userDetails.getUserProfile().getProfilePictureUrl())
+                .build();
     }
 }

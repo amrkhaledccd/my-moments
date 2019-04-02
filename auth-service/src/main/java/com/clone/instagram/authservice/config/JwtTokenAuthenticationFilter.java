@@ -1,10 +1,16 @@
-package com.clone.instagram.instaapigateway.config;
+package com.clone.instagram.authservice.config;
 
+import com.clone.instagram.authservice.model.InstaUserDetails;
+import com.clone.instagram.authservice.model.Role;
+import com.clone.instagram.authservice.service.JwtTokenProvider;
+import com.clone.instagram.authservice.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -19,9 +25,15 @@ import static java.util.stream.Collectors.toList;
 public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtConfig jwtConfig;
+    private JwtTokenProvider tokenProvider;
+    private UserService userService;
 
-    public JwtTokenAuthenticationFilter(JwtConfig jwtConfig) {
+    public JwtTokenAuthenticationFilter(JwtConfig jwtConfig,
+                                        JwtTokenProvider tokenProvider,
+                                        UserService userService) {
         this.jwtConfig = jwtConfig;
+        this.tokenProvider = tokenProvider;
+        this.userService = userService;
     }
 
     @Override
@@ -46,35 +58,28 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
         // 3. Get the token
         String token = header.replace(jwtConfig.getPrefix(), "");
 
-        try {	// exceptions might be thrown in creating the claims if for example the token is expired
 
-            // 4. Validate the token
-            Claims claims = Jwts.parser()
-                    .setSigningKey(jwtConfig.getSecret().getBytes())
-                    .parseClaimsJws(token)
-                    .getBody();
+        if(tokenProvider.validateToken(token)) {
 
-            String username = claims.getSubject();
-            if(username != null) {
-                List<String> authorities = (List<String>) claims.get("authorities");
+            String username = tokenProvider.getUsernameFromJWT(token);
 
-                // 5. Create auth object
-                // UsernamePasswordAuthenticationToken: A built-in object, used by spring to represent the current authenticated / being authenticated user.
-                // It needs a list of authorities, which has type of GrantedAuthority interface, where SimpleGrantedAuthority is an implementation of that interface
-                UsernamePasswordAuthenticationToken auth =
-                        new UsernamePasswordAuthenticationToken(username, null,
-                                authorities
-                                        .stream()
-                                        .map(SimpleGrantedAuthority::new)
-                                        .collect(toList()));
+            userService
+                    .findByUsername(username)
+                    .map(InstaUserDetails::new)
+                    .ifPresent(userDetails -> {
 
-                // 6. Authenticate the user
-                // Now, user is authenticated
-                SecurityContextHolder.getContext().setAuthentication(auth);
-            }
+                        UsernamePasswordAuthenticationToken auth =
+                                new UsernamePasswordAuthenticationToken(
+                                        userDetails,
+                                        null,
+                                        userDetails.getAuthorities());
 
-        } catch (Exception e) {
-            // In case of failure. Make sure it's clear; so guarantee user won't be authenticated
+                        auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                        SecurityContextHolder.getContext().setAuthentication(auth);
+                    });
+
+        } else {
             SecurityContextHolder.clearContext();
         }
 

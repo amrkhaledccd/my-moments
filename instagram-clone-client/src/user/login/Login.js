@@ -1,12 +1,21 @@
 import React, { Component } from "react";
 import "./login.css";
-import { Form, Input, Button, Icon, Row, Col } from "antd";
+import { Form, Input, Button, Icon, Row, Col, notification } from "antd";
 import { Link } from "react-router-dom";
+import { ACCESS_TOKEN } from "../../common/constants";
+import { login } from "../../util/ApiUtil";
 
 const FormItem = Form.Item;
 
 class Login extends Component {
   state = {};
+
+  componentDidMount = () => {
+    if (this.props.isAuthenticated) {
+      this.props.history.push("/");
+    }
+  };
+
   render() {
     const AntWrappedLoginForm = Form.create()(LoginForm);
     return (
@@ -39,11 +48,32 @@ class Login extends Component {
 class LoginForm extends Component {
   state = {};
 
-  handleSubmit = e => {
-    e.preventDefault();
+  handleSubmit = event => {
+    event.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log("Received values of form: ", values);
+        const loginRequest = Object.assign({}, values);
+        login(loginRequest)
+          .then(response => {
+            localStorage.setItem(ACCESS_TOKEN, response.accessToken);
+            this.props.onLogin();
+          })
+          .catch(error => {
+            if (error.status === 401) {
+              notification.error({
+                message: "Polling App",
+                description:
+                  "Your Username or Password is incorrect. Please try again!"
+              });
+            } else {
+              notification.error({
+                message: "Polling App",
+                description:
+                  error.message ||
+                  "Sorry! Something went wrong. Please try again!"
+              });
+            }
+          });
       }
     });
   };
