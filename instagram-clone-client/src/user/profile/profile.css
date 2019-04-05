@@ -1,0 +1,31 @@
+.profile-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  margin: 0 auto;
+  margin-top: 40px;
+}
+
+.user-details {
+  width: 100%;
+  padding: 25px 50px 50px 50px;
+}
+
+.user-avatar-circle {
+  width: 150px;
+  height: 150px;
+}
+
+.ant-tabs-ink-bar {
+  top: 1px;
+  bottom: 0px;
+  height: 1px;
+  background-color: #000;
+}
+
+.ant-tabs-nav .ant-tabs-tab-active {
+  color: #000;
+}
+
+.ant-tabs-nav .ant-tabs-tab:hover {
+  color: #000;
+}

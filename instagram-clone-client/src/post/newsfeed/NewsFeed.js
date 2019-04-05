@@ -4,13 +4,14 @@ class NewsFeed extends Component {
   state = {};
 
   componentDidMount = () => {
+    console.log("inside newsfeed: " + this.props.isAuthenticated);
     if (!this.props.isAuthenticated) {
       this.props.history.push("/login");
     }
   };
 
   render() {
-    return <h1>This is NewsFeed</h1>;
+    return <h1>NewsFeed: </h1>;
   }
 }
 

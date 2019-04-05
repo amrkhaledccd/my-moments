@@ -2,6 +2,11 @@
   line-height: 77px;
 }
 
+/* .ant-menu-horizontal > .ant-menu-item:hover {
+  border-bottom: none;
+  color: #000;
+} */
+
 .app-logo-container a {
   font-family: Titillium Web;
   text-decoration: none;
@@ -20,5 +25,10 @@
 }
 
 .app-menu > li {
-  font-size: 18px;
+  font-size: 24px;
+}
+
+.app-menu i {
+  font-size: 24px !important;
+  min-width: 24px !important;
 }

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Menu, Row, Col, Input } from "antd";
+import { Menu, Row, Col, Input, Icon } from "antd";
 import { Link, withRouter } from "react-router-dom";
 import "./AppHeader.css";
 
@@ -7,13 +7,30 @@ const Search = Input.Search;
 
 class AppHeader extends Component {
   state = {};
+
+  handleMenuItemClick = ({ key }) => {
+    console.log("Item clicked: " + key);
+    if (key === "logout") {
+      this.props.onLogout();
+    }
+  };
   render() {
     let menuItems = [
-      <Menu.Item key="/login">
-        <Link to="/login">Login</Link>{" "}
+      <Menu.Item title="Find friends" key="discover">
+        <Link to="/discover">
+          <Icon type="compass" />
+        </Link>
       </Menu.Item>,
-      <Menu.Item key="/signup">
-        <Link to="/signup"> Signup</Link>
+      <Menu.Item key="notification">
+        <Icon type="heart" />
+      </Menu.Item>,
+      <Menu.Item key="userProfile">
+        <Link to={`/users/${this.props.currentUser.username}`}>
+          <Icon type="user" />
+        </Link>
+      </Menu.Item>,
+      <Menu.Item key="logout">
+        <Icon type="logout" />
       </Menu.Item>
     ];
 
@@ -22,19 +39,25 @@ class AppHeader extends Component {
         <Row>
           <Col span={8}>
             <div className="app-logo-container">
-              <img
-                alt="logo"
-                src={
-                  "http://parlezlocal.com/wp-content/uploads/2015/09/insta-logo.png"
-                }
-              />
+              <Link to="/">
+                <img
+                  alt="logo"
+                  src={
+                    "http://parlezlocal.com/wp-content/uploads/2015/09/insta-logo.png"
+                  }
+                />
+              </Link>
             </div>
           </Col>
-          <Col span={8} push={12}>
+          <Col span={8}>
+            <Search />
+          </Col>
+          <Col span={8} push={4}>
             <Menu
               mode="horizontal"
-              defaultSelectedKeys={["2"]}
               className="app-menu"
+              selectable={false}
+              onClick={this.handleMenuItemClick}
             >
               {menuItems}
             </Menu>
