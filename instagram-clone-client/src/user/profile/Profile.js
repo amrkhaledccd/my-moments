@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./profile.css";
-import { Row, Col, Avatar, Tabs, Icon } from "antd";
+import { Row, Col, Avatar, Tabs, Icon, Button, List, Empty } from "antd";
 import photo from "../../images/amr.jpg";
 
 const TabPane = Tabs.TabPane;
@@ -26,7 +26,43 @@ class Profile extends Component {
                     <Avatar src={photo} className="user-avatar-circle" />
                   </div>
                 </Col>
-                <Col span={16} />
+                <Col span={16}>
+                  <Row>
+                    <Col span={9}>
+                      <h1 className="username">AmrKhaledccd</h1>
+                    </Col>
+                    <Col span={4}>
+                      <Button>Edit profile</Button>
+                    </Col>
+                    <Col span={11}>
+                      <Icon className="setting" type="setting" />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={15}>
+                      <List
+                        grid={{ gutter: 2, column: 3 }}
+                        split={false}
+                        dataSource={[
+                          { num: 0, str: " posts" },
+                          { num: 0, str: " followers" },
+                          { num: 0, str: " following" }
+                        ]}
+                        renderItem={item => (
+                          <List.Item>
+                            <span style={{ fontWeight: 700 }}>{item.num}</span>
+                            {item.str}
+                          </List.Item>
+                        )}
+                      />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <h1 className="name">Amr Khaled</h1>
+                    </Col>
+                  </Row>
+                </Col>
               </Row>
             </div>
           </Col>
@@ -50,7 +86,17 @@ class Profile extends Component {
                   </span>
                 }
                 key="1"
-              />
+              >
+                <Empty
+                  image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
+                  imageStyle={{
+                    height: 200
+                  }}
+                  description={<span>No Posts Yet</span>}
+                >
+                  <Button type="primary">Create Now</Button>
+                </Empty>
+              </TabPane>
               <TabPane
                 tab={
                   <span>
@@ -59,7 +105,19 @@ class Profile extends Component {
                   </span>
                 }
                 key="2"
-              />
+              >
+                <Empty
+                  image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
+                  imageStyle={{
+                    height: 200
+                  }}
+                  description={
+                    <span>
+                      Save photos and videos that you want to see again
+                    </span>
+                  }
+                />
+              </TabPane>
               <TabPane
                 tab={
                   <span>
@@ -68,9 +126,20 @@ class Profile extends Component {
                   </span>
                 }
                 key="3"
-              />
+              >
+                <Empty
+                  image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
+                  imageStyle={{
+                    height: 200
+                  }}
+                  description={
+                    <span>
+                      When people tag you in photos, they'll appear here.
+                    </span>
+                  }
+                />
+              </TabPane>
             </Tabs>
-            ,
           </Col>
         </Row>
       </div>

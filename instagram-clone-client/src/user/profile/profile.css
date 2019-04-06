@@ -10,6 +10,11 @@
   padding: 25px 50px 50px 50px;
 }
 
+.user-avatar {
+  display: flex;
+  justify-content: center;
+}
+
 .user-avatar-circle {
   width: 150px;
   height: 150px;
@@ -28,4 +33,39 @@
 
 .ant-tabs-nav .ant-tabs-tab:hover {
   color: #000;
+}
+
+.username {
+  font-size: 28px;
+  line-height: 32px;
+  font-weight: 300;
+}
+
+.name {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.edit-profile {
+  font-weight: 700;
+  color: #000;
+}
+
+.setting {
+  margin-left: 20px;
+  font-size: 26px;
+  line-height: 37px;
+  cursor: pointer;
+}
+
+.ant-list-grid .ant-list-item {
+  display: block;
+  max-width: 100%;
+  margin-bottom: 16px;
+  padding-top: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+  color: black;
+  font-size: 16px;
+  margin-top: 10px;
 }
