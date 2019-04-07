@@ -1,17 +1,43 @@
 import React, { Component } from "react";
 import "./profile.css";
-import { Row, Col, Avatar, Tabs, Icon, Button, List, Empty } from "antd";
+import { Row, Col, Avatar, Tabs, Icon, Button, List, Empty, Modal } from "antd";
 import photo from "../../images/amr.jpg";
+import NewPost from "../../post/newpost/NewPost";
 
 const TabPane = Tabs.TabPane;
 
 class Profile extends Component {
-  state = {};
+  state = { settingModalVisible: false, drawerVisible: false };
 
   componentDidMount = () => {
     if (!this.props.isAuthenticated) {
       this.props.history.push("/login");
     }
+  };
+
+  showSettingModal = () => {
+    this.setState({ settingModalVisible: true });
+  };
+
+  hideSettingModal = () => {
+    this.setState({ settingModalVisible: false });
+  };
+
+  handleLogout = () => {
+    this.setState({ settingModalVisible: false });
+    this.props.onLogout();
+  };
+
+  handleDrawerClose = () => {
+    this.setState({
+      drawerVisible: false
+    });
+  };
+
+  showDrawer = () => {
+    this.setState({
+      drawerVisible: true
+    });
   };
 
   render() {
@@ -32,10 +58,14 @@ class Profile extends Component {
                       <h1 className="username">AmrKhaledccd</h1>
                     </Col>
                     <Col span={4}>
-                      <Button>Edit profile</Button>
+                      <Button className="edit-profile">Edit profile</Button>
                     </Col>
                     <Col span={11}>
-                      <Icon className="setting" type="setting" />
+                      <Icon
+                        className="setting"
+                        type="setting"
+                        onClick={this.showSettingModal}
+                      />
                     </Col>
                   </Row>
                   <Row>
@@ -89,12 +119,11 @@ class Profile extends Component {
               >
                 <Empty
                   image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
-                  imageStyle={{
-                    height: 200
-                  }}
                   description={<span>No Posts Yet</span>}
                 >
-                  <Button type="primary">Create Now</Button>
+                  <Button type="primary" onClick={this.showDrawer}>
+                    Create Now
+                  </Button>
                 </Empty>
               </TabPane>
               <TabPane
@@ -108,9 +137,6 @@ class Profile extends Component {
               >
                 <Empty
                   image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
-                  imageStyle={{
-                    height: 200
-                  }}
                   description={
                     <span>
                       Save photos and videos that you want to see again
@@ -129,9 +155,6 @@ class Profile extends Component {
               >
                 <Empty
                   image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
-                  imageStyle={{
-                    height: 200
-                  }}
                   description={
                     <span>
                       When people tag you in photos, they'll appear here.
@@ -142,6 +165,43 @@ class Profile extends Component {
             </Tabs>
           </Col>
         </Row>
+
+        <Modal
+          visible={this.state.settingModalVisible}
+          title={null}
+          onCancel={this.hideSettingModal}
+          footer={null}
+          closable={false}
+          width={400}
+          bodyStyle={{ padding: 0 }}
+          centered
+        >
+          <List
+            dataSource={[
+              { onClick: null, text: "Change password" },
+              { onClick: null, text: "Nametag" },
+              { onClick: null, text: "Authorized App" },
+              { onClick: null, text: "Notifications" },
+              { onClick: null, text: "Privacy and Security" },
+              { onClick: this.handleLogout, text: "Logout" },
+              { onClick: this.hideSettingModal, text: "Cancel" }
+            ]}
+            renderItem={item => (
+              <List.Item
+                centered
+                className="setting-modal-item"
+                onClick={item.onClick}
+              >
+                {item.text}
+              </List.Item>
+            )}
+          />
+        </Modal>
+
+        <NewPost
+          visible={this.state.drawerVisible}
+          onClose={this.handleDrawerClose}
+        />
       </div>
     );
   }

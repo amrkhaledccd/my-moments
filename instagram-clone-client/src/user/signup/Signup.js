@@ -49,7 +49,7 @@ class Signup extends Component {
     signup(signupRequest)
       .then(response => {
         notification.success({
-          message: "Instagram",
+          message: "MyMoments",
           description:
             "Thank you! You're successfully registered. Please Login to continue!"
         });
@@ -57,7 +57,7 @@ class Signup extends Component {
       })
       .catch(error => {
         notification.error({
-          message: "Instagram",
+          message: "MyMoments",
           description:
             error.message || "Sorry! Something went wrong. Please try again!"
         });

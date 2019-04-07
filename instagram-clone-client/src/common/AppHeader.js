@@ -8,12 +8,6 @@ const Search = Input.Search;
 class AppHeader extends Component {
   state = {};
 
-  handleMenuItemClick = ({ key }) => {
-    console.log("Item clicked: " + key);
-    if (key === "logout") {
-      this.props.onLogout();
-    }
-  };
   render() {
     let menuItems = [
       <Menu.Item title="Find friends" key="discover">
@@ -28,9 +22,6 @@ class AppHeader extends Component {
         <Link to={`/users/${this.props.currentUser.username}`}>
           <Icon type="user" />
         </Link>
-      </Menu.Item>,
-      <Menu.Item key="logout">
-        <Icon type="logout" />
       </Menu.Item>
     ];
 

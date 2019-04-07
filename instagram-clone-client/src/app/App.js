@@ -82,7 +82,6 @@ class App extends Component {
           <AppHeader
             isAuthenticated={this.state.isAuthenticated}
             currentUser={this.state.currentUser}
-            onLogout={this.handleLogout}
             {...this.props}
           />
         </Header>
@@ -135,6 +134,7 @@ class App extends Component {
                   <Profile
                     isAuthenticated={this.state.isAuthenticated}
                     currentUser={this.state.currentUser}
+                    onLogout={this.handleLogout}
                     {...props}
                   />
                 )}
