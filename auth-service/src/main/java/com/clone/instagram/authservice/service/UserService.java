@@ -1,6 +1,7 @@
 package com.clone.instagram.authservice.service;
 
 import com.clone.instagram.authservice.exception.EmailAlreadyExistsException;
+import com.clone.instagram.authservice.exception.ResourceNotFoundException;
 import com.clone.instagram.authservice.exception.UsernameAlreadyExistsException;
 import com.clone.instagram.authservice.model.Role;
 import com.clone.instagram.authservice.repository.UserRepository;
@@ -52,5 +53,18 @@ public class UserService {
             add(Role.USER);
         }});
         return userRepository.save(user);
+    }
+
+    public User updateProfilePicture(String uri, String id) {
+        log.info("update profile picture {} for user {}", uri, id);
+
+       return userRepository
+               .findById(id)
+               .map(user -> {
+                   user.getUserProfile().setProfilePictureUrl(uri);
+                   return userRepository.save(user);
+               })
+               .orElseThrow(() ->
+                       new ResourceNotFoundException(String.format("user id %s not found", id)));
     }
 }

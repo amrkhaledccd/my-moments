@@ -1,17 +1,20 @@
 import React, { Component } from "react";
 
 class NewsFeed extends Component {
-  state = {};
+  state = { currentUser: { ...this.props.currentUser } };
 
   componentDidMount = () => {
-    console.log("inside newsfeed: " + this.props.isAuthenticated);
     if (!this.props.isAuthenticated) {
       this.props.history.push("/login");
     }
   };
 
   render() {
-    return <h1>NewsFeed: </h1>;
+    return (
+      <div>
+        <h1>NewsFeed: {this.state.currentUser.username} </h1>
+      </div>
+    );
   }
 }
 

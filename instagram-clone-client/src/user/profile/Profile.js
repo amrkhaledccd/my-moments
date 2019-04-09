@@ -1,13 +1,29 @@
 import React, { Component } from "react";
 import "./profile.css";
-import { Row, Col, Avatar, Tabs, Icon, Button, List, Empty, Modal } from "antd";
-import photo from "../../images/amr.jpg";
+import {
+  Row,
+  Col,
+  Avatar,
+  Tabs,
+  Icon,
+  Button,
+  List,
+  Empty,
+  notification
+} from "antd";
 import NewPost from "../../post/newpost/NewPost";
+import ProfileModal from "./ProfileModal";
+import { uploadImage, updateProfilePicture } from "../../util/ApiUtil";
 
 const TabPane = Tabs.TabPane;
 
 class Profile extends Component {
-  state = { settingModalVisible: false, drawerVisible: false };
+  state = {
+    settingModalVisible: false,
+    drawerVisible: false,
+    profilePicModalVisible: false,
+    currentUser: { ...this.props.currentUser }
+  };
 
   componentDidMount = () => {
     if (!this.props.isAuthenticated) {
@@ -40,6 +56,54 @@ class Profile extends Component {
     });
   };
 
+  showProfilePicModal = () => {
+    this.setState({ profilePicModalVisible: true });
+  };
+
+  hideProfilePicModal = () => {
+    this.setState({ profilePicModalVisible: false });
+  };
+
+  handleUpload = file => {
+    this.hideProfilePicModal();
+
+    const data = new FormData();
+    data.append("file", file);
+
+    uploadImage(data)
+      .then(response => {
+        updateProfilePicture(this.state.currentUser.id, response.uri)
+          .then(res => {
+            let currentUser = { ...this.state.currentUser };
+            currentUser.profilePicture = response.uri;
+
+            this.setState({
+              currentUser: { ...currentUser }
+            });
+
+            this.props.onUpdateCurrentUser(currentUser);
+
+            notification.success({
+              message: "MyMoments",
+              description: "Profile picture updated"
+            });
+          })
+          .catch(error => {
+            notification.error({
+              message: "MyMoments",
+              description: "Something went wrong. Please try again!"
+            });
+          });
+      })
+      .catch(error => {
+        notification.error({
+          message: "MyMoments",
+          description:
+            error.message || "Something went wrong. Please try again!"
+        });
+      });
+  };
+
   render() {
     return (
       <div className="profile-container">
@@ -49,13 +113,19 @@ class Profile extends Component {
               <Row>
                 <Col span={8}>
                   <div className="user-avatar">
-                    <Avatar src={photo} className="user-avatar-circle" />
+                    <Avatar
+                      src={this.state.currentUser.profilePicture}
+                      className="user-avatar-circle"
+                      onClick={this.showProfilePicModal}
+                    />
                   </div>
                 </Col>
                 <Col span={16}>
                   <Row>
                     <Col span={9}>
-                      <h1 className="username">AmrKhaledccd</h1>
+                      <h1 className="username">
+                        {this.state.currentUser.username}
+                      </h1>
                     </Col>
                     <Col span={4}>
                       <Button className="edit-profile">Edit profile</Button>
@@ -89,7 +159,7 @@ class Profile extends Component {
                   </Row>
                   <Row>
                     <Col>
-                      <h1 className="name">Amr Khaled</h1>
+                      <h1 className="name">{this.state.currentUser.name}</h1>
                     </Col>
                   </Row>
                 </Col>
@@ -166,37 +236,33 @@ class Profile extends Component {
           </Col>
         </Row>
 
-        <Modal
+        <ProfileModal
           visible={this.state.settingModalVisible}
           title={null}
-          onCancel={this.hideSettingModal}
-          footer={null}
-          closable={false}
-          width={400}
-          bodyStyle={{ padding: 0 }}
-          centered
-        >
-          <List
-            dataSource={[
-              { onClick: null, text: "Change password" },
-              { onClick: null, text: "Nametag" },
-              { onClick: null, text: "Authorized App" },
-              { onClick: null, text: "Notifications" },
-              { onClick: null, text: "Privacy and Security" },
-              { onClick: this.handleLogout, text: "Logout" },
-              { onClick: this.hideSettingModal, text: "Cancel" }
-            ]}
-            renderItem={item => (
-              <List.Item
-                centered
-                className="setting-modal-item"
-                onClick={item.onClick}
-              >
-                {item.text}
-              </List.Item>
-            )}
-          />
-        </Modal>
+          dataSource={[
+            { onClick: null, text: "Change password" },
+            { onClick: null, text: "Nametag" },
+            { onClick: null, text: "Authorized App" },
+            { onClick: null, text: "Notifications" },
+            { onClick: null, text: "Privacy and Security" },
+            { onClick: this.handleLogout, text: "Logout" },
+            { onClick: this.hideSettingModal, text: "Cancel" }
+          ]}
+        />
+
+        <ProfileModal
+          visible={this.state.profilePicModalVisible}
+          title="Change profile photo"
+          dataSource={[
+            {
+              onClick: null,
+              text: "Upload Photo",
+              isUpload: true,
+              onUpload: this.handleUpload
+            },
+            { onClick: this.hideProfilePicModal, text: "Cancel" }
+          ]}
+        />
 
         <NewPost
           visible={this.state.drawerVisible}

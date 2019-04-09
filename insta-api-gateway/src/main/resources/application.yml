@@ -17,6 +17,10 @@ zuul:
       path: /auth/**
       service-id: insta-auth
       sensitive-headers: Cookie,Set-Cookie
+    insta-media:
+      path: /media/**
+      service-id: insta-media
+      sensitive-headers: Cookie,Set-Cookie
 
 security:
   basic:

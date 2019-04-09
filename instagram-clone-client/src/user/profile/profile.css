@@ -18,6 +18,7 @@
 .user-avatar-circle {
   width: 150px;
   height: 150px;
+  cursor: pointer;
 }
 
 .ant-tabs-ink-bar {
@@ -68,15 +69,4 @@
   color: black;
   font-size: 16px;
   margin-top: 10px;
-}
-
-.setting-modal-item {
-  display: flex;
-  justify-content: center;
-  color: #000;
-  cursor: pointer;
-}
-
-.setting-modal-item:hover {
-  background-color: #fafafa;
 }

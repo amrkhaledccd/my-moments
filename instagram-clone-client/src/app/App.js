@@ -31,6 +31,7 @@ class App extends Component {
     });
     getCurrentUser()
       .then(response => {
+        console.log("Current profile picture: " + response.profilePicture);
         this.setState({
           currentUser: response,
           isAuthenticated: true,
@@ -44,6 +45,10 @@ class App extends Component {
         });
       });
   }
+
+  handleUpdateCurrentuser = currentuser => {
+    this.setState({ currentUser: { ...currentuser } });
+  };
 
   handleLogout = (redirectTo = "/login") => {
     localStorage.removeItem(ACCESS_TOKEN);
@@ -135,6 +140,7 @@ class App extends Component {
                     isAuthenticated={this.state.isAuthenticated}
                     currentUser={this.state.currentUser}
                     onLogout={this.handleLogout}
+                    onUpdateCurrentUser={this.handleUpdateCurrentuser}
                     {...props}
                   />
                 )}

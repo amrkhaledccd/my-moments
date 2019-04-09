@@ -1,0 +1,22 @@
+.setting-modal-item {
+  display: flex;
+  justify-content: center;
+  color: #000;
+  cursor: pointer;
+}
+
+.setting-modal-item:hover {
+  background-color: #fafafa;
+}
+
+.ant-modal-title {
+  display: flex;
+  justify-content: center;
+  color: #262626;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.ant-upload.ant-upload-select {
+  width: 100%;
+}

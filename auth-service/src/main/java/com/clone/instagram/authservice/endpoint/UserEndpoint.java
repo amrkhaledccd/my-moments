@@ -85,8 +85,17 @@ public class UserEndpoint {
                 .body(new ApiResponse(true,"User registered successfully"));
     }
 
+    @PatchMapping("/users/{id}")
+    public ResponseEntity <?> updateProfilePicture(@RequestBody String profilePicture, @PathVariable("id") String id) {
+
+        userService.updateProfilePicture(profilePicture, id);
+
+        return ResponseEntity
+                .ok()
+                .body(new ApiResponse(true,"Profile picture updated successfully"));
+    }
+
     @GetMapping(value = "/users/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("#username == authentication.name")
     public ResponseEntity<?> findUser(@PathVariable("username") String username) {
         log.info("retrieving user {}", username);
 

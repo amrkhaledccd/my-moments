@@ -1,9 +1,11 @@
 import { API_BASE_URL, ACCESS_TOKEN } from "../common/constants";
 
 const request = options => {
-  const headers = new Headers({
-    "Content-Type": "application/json"
-  });
+  const headers = new Headers();
+
+  if (options.setContentType !== false) {
+    headers.append("Content-Type", "application/json");
+  }
 
   if (localStorage.getItem(ACCESS_TOKEN)) {
     headers.append(
@@ -49,5 +51,22 @@ export function getCurrentUser() {
   return request({
     url: API_BASE_URL + "/auth/users/me",
     method: "GET"
+  });
+}
+
+export function uploadImage(uploadImageRequest) {
+  return request({
+    setContentType: false,
+    url: API_BASE_URL + "/media/files",
+    method: "POST",
+    body: uploadImageRequest
+  });
+}
+
+export function updateProfilePicture(id, uri) {
+  return request({
+    url: API_BASE_URL + "/auth/users/" + id,
+    method: "PATCH",
+    body: uri
   });
 }

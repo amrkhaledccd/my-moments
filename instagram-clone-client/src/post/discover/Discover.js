@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 
 class Discover extends Component {
-  state = {};
+  state = { currentUser: { ...this.props.currentUser } };
   render() {
-    return <h1>Discover</h1>;
+    return <h1>Discover: {this.state.currentUser.username}</h1>;
   }
 }
 
