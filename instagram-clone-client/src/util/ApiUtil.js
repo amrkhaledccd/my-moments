@@ -57,16 +57,16 @@ export function getCurrentUser() {
 export function uploadImage(uploadImageRequest) {
   return request({
     setContentType: false,
-    url: API_BASE_URL + "/media/files",
+    url: API_BASE_URL + "/media/images",
     method: "POST",
     body: uploadImageRequest
   });
 }
 
-export function updateProfilePicture(id, uri) {
+export function updateProfilePicture(uri) {
   return request({
-    url: API_BASE_URL + "/auth/users/" + id,
-    method: "PATCH",
+    url: API_BASE_URL + "/auth/users/me/picture",
+    method: "PUT",
     body: uri
   });
 }

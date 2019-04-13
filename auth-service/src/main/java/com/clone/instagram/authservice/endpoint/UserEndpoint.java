@@ -23,7 +23,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.security.Principal;
 
 @RestController
 @Slf4j
@@ -85,10 +84,13 @@ public class UserEndpoint {
                 .body(new ApiResponse(true,"User registered successfully"));
     }
 
-    @PatchMapping("/users/{id}")
-    public ResponseEntity <?> updateProfilePicture(@RequestBody String profilePicture, @PathVariable("id") String id) {
+    @PutMapping("/users/me/picture")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity <?> updateProfilePicture(
+            @RequestBody String profilePicture,
+            @AuthenticationPrincipal InstaUserDetails userDetails) {
 
-        userService.updateProfilePicture(profilePicture, id);
+        userService.updateProfilePicture(profilePicture, userDetails.getId());
 
         return ResponseEntity
                 .ok()

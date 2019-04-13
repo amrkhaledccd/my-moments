@@ -4,6 +4,7 @@ package com.clone.instagram.instamediaservice.service;
 import com.clone.instagram.instamediaservice.exception.InvalidFileException;
 import com.clone.instagram.instamediaservice.exception.InvalidFileNameException;
 import com.clone.instagram.instamediaservice.exception.StorageException;
+import com.clone.instagram.instamediaservice.model.ImageMetadata;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.UUID;
@@ -35,7 +37,7 @@ public class FileStorageService {
     private Environment environment;
 
 
-    public String store(MultipartFile file) {
+    public ImageMetadata store(MultipartFile file, String username) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
 
         log.info("storing file {}", filename);
@@ -58,21 +60,28 @@ public class FileStorageService {
             String newFilename = UUID.randomUUID() + "." + extension;
 
             try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, Paths.get(uploadDirectory).resolve(newFilename),
+                Path userDir = Paths.get(uploadDirectory + username);
+
+                if(Files.notExists(userDir)) {
+                    Files.createDirectory(userDir);
+                }
+
+                Files.copy(inputStream, userDir.resolve(newFilename),
                         StandardCopyOption.REPLACE_EXISTING);
             }
 
             String port = environment.getProperty("local.server.port");
             String hostName = InetAddress.getLocalHost().getHostName();
 
-            String fileUrl = String.format("http://%s:%s%s/%s",
-                    hostName, port, filePathPrefix, newFilename);
+            String fileUrl = String.format("http://%s:%s%s/%s/%s",
+                    hostName, port, filePathPrefix, username, newFilename);
 
             log.info("successfully stored file {} location {}", filename, fileUrl);
 
-            return fileUrl;
+            return new ImageMetadata(null, username, newFilename, fileUrl, file.getContentType());
         }
         catch (IOException e) {
+            log.error("failed to store file {} error: {}", filename, e);
             throw new StorageException("Failed to store file " + filename, e);
         }
     }

@@ -68,11 +68,11 @@ class Profile extends Component {
     this.hideProfilePicModal();
 
     const data = new FormData();
-    data.append("file", file);
+    data.append("image", file);
 
     uploadImage(data)
       .then(response => {
-        updateProfilePicture(this.state.currentUser.id, response.uri)
+        updateProfilePicture(response.uri)
           .then(res => {
             let currentUser = { ...this.state.currentUser };
             currentUser.profilePicture = response.uri;

@@ -2,6 +2,10 @@ spring:
   application:
     name: insta-media
 
+  data:
+    mongodb:
+      database: instaclone_media
+
   servlet:
     multipart:
       enabled: true

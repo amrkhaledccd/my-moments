@@ -49,7 +49,7 @@ public class UserService {
         }
         user.setActive(true);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(new HashSet<Role>() {{
+        user.setRoles(new HashSet<>() {{
             add(Role.USER);
         }});
         return userRepository.save(user);
