@@ -21,6 +21,10 @@ zuul:
       path: /media/**
       service-id: insta-media
       sensitive-headers: Cookie,Set-Cookie
+    insta-post:
+      path: /post/**
+      service-id: insta-post
+      sensitive-headers: Cookie,Set-Cookie
 
 ribbon:
   ConnectTimeout: 60000
