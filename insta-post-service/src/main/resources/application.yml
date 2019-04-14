@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: insta-post
+
+  data:
+    mongodb:
+      database: instaclone_post
+
+server:
+  port: 8001
+
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka
+
+security:
+  basic:
+    enable: false
+
+  jwt:
+    uri: /auth/**
+    header: Authorization
+    prefix: Bearer
+    expiration: 86400
+    secret: JwtSecretKey

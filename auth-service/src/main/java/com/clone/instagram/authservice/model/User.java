@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -63,10 +63,10 @@ public class User {
     private String email;
 
     @CreatedDate
-    private Date createdAt;
+    private Instant createdAt;
 
     @LastModifiedDate
-    private Date updatedAt;
+    private Instant updatedAt;
 
     private boolean active;
     private Profile userProfile;

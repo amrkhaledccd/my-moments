@@ -22,6 +22,18 @@ zuul:
       service-id: insta-media
       sensitive-headers: Cookie,Set-Cookie
 
+ribbon:
+  ConnectTimeout: 60000
+  ReadTimeout: 600000
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 600000
+
 security:
   basic:
     enable: false

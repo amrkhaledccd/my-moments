@@ -78,7 +78,7 @@ public class FileStorageService {
 
             log.info("successfully stored file {} location {}", filename, fileUrl);
 
-            return new ImageMetadata(null, username, newFilename, fileUrl, file.getContentType());
+            return new ImageMetadata(newFilename, fileUrl, file.getContentType());
         }
         catch (IOException e) {
             log.error("failed to store file {} error: {}", filename, e);
