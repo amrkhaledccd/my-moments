@@ -16,9 +16,7 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JwtConfig jwtConfig;
-
-    @Value("${file.path.prefix}")
-    private String filePathPrefix;
+    
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -33,7 +31,6 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
                 // Add a filter to validate the tokens with every request
                 .addFilterAfter(new JwtTokenAuthenticationFilter(jwtConfig), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers(filePathPrefix + "/**").permitAll()
                 .anyRequest().authenticated();
     }
 
