@@ -11,7 +11,6 @@ import {
   Empty,
   notification
 } from "antd";
-import NewPost from "../../post/newpost/NewPost";
 import ProfileModal from "./ProfileModal";
 import { uploadImage, updateProfilePicture } from "../../util/ApiUtil";
 
@@ -20,7 +19,6 @@ const TabPane = Tabs.TabPane;
 class Profile extends Component {
   state = {
     settingModalVisible: false,
-    drawerVisible: false,
     profilePicModalVisible: false,
     currentUser: { ...this.props.currentUser }
   };
@@ -42,18 +40,6 @@ class Profile extends Component {
   handleLogout = () => {
     this.setState({ settingModalVisible: false });
     this.props.onLogout();
-  };
-
-  handleDrawerClose = () => {
-    this.setState({
-      drawerVisible: false
-    });
-  };
-
-  showDrawer = () => {
-    this.setState({
-      drawerVisible: true
-    });
   };
 
   showProfilePicModal = () => {
@@ -190,11 +176,7 @@ class Profile extends Component {
                 <Empty
                   image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
                   description={<span>No Posts Yet</span>}
-                >
-                  <Button type="primary" onClick={this.showDrawer}>
-                    Create Now
-                  </Button>
-                </Empty>
+                />
               </TabPane>
               <TabPane
                 tab={
@@ -262,11 +244,6 @@ class Profile extends Component {
             },
             { onClick: this.hideProfilePicModal, text: "Cancel" }
           ]}
-        />
-
-        <NewPost
-          visible={this.state.drawerVisible}
-          onClose={this.handleDrawerClose}
         />
       </div>
     );

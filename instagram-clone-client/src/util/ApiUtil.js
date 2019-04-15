@@ -70,3 +70,11 @@ export function updateProfilePicture(uri) {
     body: uri
   });
 }
+
+export function createPost(createPostRequest) {
+  return request({
+    url: API_BASE_URL + "/post/posts",
+    method: "POST",
+    body: JSON.stringify(createPostRequest)
+  });
+}

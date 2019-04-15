@@ -46,7 +46,7 @@ public class PostApi {
         postService.deletePost(id, user.getName());
     }
 
-    @GetMapping("/posts")
+    @GetMapping("/posts/me")
     public ResponseEntity<?> findCurrentUserPosts(@AuthenticationPrincipal Principal principal) {
         log.info("retrieving posts for user {}", principal.getName());
 

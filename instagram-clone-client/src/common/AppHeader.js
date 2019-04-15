@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Menu, Row, Col, Input, Icon } from "antd";
 import { Link, withRouter } from "react-router-dom";
 import "./AppHeader.css";
+import NewPost from "../post/newpost/NewPost";
 
 const Search = Input.Search;
 
@@ -40,8 +41,11 @@ class AppHeader extends Component {
               </Link>
             </div>
           </Col>
-          <Col span={8}>
+          <Col span={6}>
             <Search />
+          </Col>
+          <Col span={2}>
+            <NewPost />
           </Col>
           <Col span={8} push={4}>
             <Menu
