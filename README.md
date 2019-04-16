@@ -3,7 +3,7 @@ Instagram Clone - Cloning Instagram for learning purpose
 
 # Screenshots
 
-This will be updated but for now I wil add some screenshots of the progress
+This will be updated later but for now I wil add some screenshots of the progress
 
 
 ![Screenshot](4.png)
