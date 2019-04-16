@@ -9,17 +9,17 @@ class PostGrid extends Component {
   };
 
   render() {
-    let content;
-
-    if (this.props.posts === null) {
-      content = (
+    if (!Array.isArray(this.props.posts) || !this.props.posts.length) {
+      return (
         <Empty
           image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
           description={<span>No Posts Yet</span>}
         />
       );
-    } else {
-      content = (
+    }
+
+    return (
+      <div>
         <List
           grid={{ gutter: 9, column: 3 }}
           dataSource={this.props.posts}
@@ -29,9 +29,8 @@ class PostGrid extends Component {
             </List.Item>
           )}
         />
-      );
-    }
-    return content;
+      </div>
+    );
   }
 }
 

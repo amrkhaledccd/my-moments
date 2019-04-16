@@ -92,6 +92,12 @@ class Profile extends Component {
   };
 
   render() {
+    let numOfPosts = 0;
+
+    if (Array.isArray(this.props.posts)) {
+      numOfPosts = this.props.posts.length;
+    }
+
     return (
       <div className="profile-container">
         <Row>
@@ -131,7 +137,7 @@ class Profile extends Component {
                         grid={{ gutter: 2, column: 3 }}
                         split={false}
                         dataSource={[
-                          { num: 0, str: " posts" },
+                          { num: numOfPosts, str: " posts" },
                           { num: 0, str: " followers" },
                           { num: 0, str: " following" }
                         ]}
