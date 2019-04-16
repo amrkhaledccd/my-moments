@@ -25,13 +25,6 @@ class Login extends Component {
             <Col pan={24}>
               <div className="logo-container">
                 <span>𝓜𝔂 𝓜𝓸𝓶𝓮𝓷𝓽𝓼</span>
-
-                {/* <img
-                  alt="logo"
-                  src={
-                    "http://parlezlocal.com/wp-content/uploads/2015/09/insta-logo.png"
-                  }
-                /> */}
               </div>
             </Col>
             <Col pan={24}>
