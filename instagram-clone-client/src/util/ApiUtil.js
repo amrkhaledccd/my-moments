@@ -55,6 +55,10 @@ export function getCurrentUser() {
 }
 
 export function uploadImage(uploadImageRequest) {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+
   return request({
     setContentType: false,
     url: API_BASE_URL + "/media/images",
@@ -64,6 +68,10 @@ export function uploadImage(uploadImageRequest) {
 }
 
 export function updateProfilePicture(uri) {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+
   return request({
     url: API_BASE_URL + "/auth/users/me/picture",
     method: "PUT",
@@ -72,9 +80,24 @@ export function updateProfilePicture(uri) {
 }
 
 export function createPost(createPostRequest) {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+
   return request({
     url: API_BASE_URL + "/post/posts",
     method: "POST",
     body: JSON.stringify(createPostRequest)
+  });
+}
+
+export function getCurrentUserPosts() {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+
+  return request({
+    url: API_BASE_URL + "/post/posts/me",
+    method: "GET"
   });
 }

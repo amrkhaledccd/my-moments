@@ -80,6 +80,7 @@ class NewPost extends Component {
     createPost(createPostRequest)
       .then(response => {
         this.hideModal();
+        this.props.onGetUserPosts();
 
         notification.success({
           message: "MyMoments",
@@ -118,8 +119,8 @@ class NewPost extends Component {
                 Click or drag file to this area to upload
               </p>
               <p className="ant-upload-hint">
-                Support for a single or bulk upload. Strictly prohibit from
-                uploading company data or other band files
+                Support for a single upload. Strictly prohibit from uploading
+                company data or other band files
               </p>
             </Dragger>
           </Spin>

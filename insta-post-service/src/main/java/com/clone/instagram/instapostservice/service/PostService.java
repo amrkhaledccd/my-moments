@@ -47,6 +47,6 @@ public class PostService {
     }
 
     public List<Post> postsByUsername(String username) {
-        return postRepository.findByUsername(username);
+        return postRepository.findByUsernameOrderByCreatedAtDesc(username);
     }
 }

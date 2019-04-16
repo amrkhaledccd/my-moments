@@ -13,6 +13,7 @@ import {
 } from "antd";
 import ProfileModal from "./ProfileModal";
 import { uploadImage, updateProfilePicture } from "../../util/ApiUtil";
+import PostGrid from "../../post/postgrid/PostGrid";
 
 const TabPane = Tabs.TabPane;
 
@@ -173,9 +174,9 @@ class Profile extends Component {
                 }
                 key="1"
               >
-                <Empty
-                  image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
-                  description={<span>No Posts Yet</span>}
+                <PostGrid
+                  onGetUserPosts={this.props.onGetUserPosts}
+                  posts={this.props.posts}
                 />
               </TabPane>
               <TabPane

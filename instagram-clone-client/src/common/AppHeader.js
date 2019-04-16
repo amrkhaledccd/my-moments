@@ -45,7 +45,7 @@ class AppHeader extends Component {
             <Search />
           </Col>
           <Col span={2}>
-            <NewPost />
+            <NewPost onGetUserPosts={this.props.onGetUserPosts} />
           </Col>
           <Col span={8} push={4}>
             <Menu

@@ -11,6 +11,7 @@ import { getCurrentUser } from "../util/ApiUtil";
 import { ACCESS_TOKEN } from "../common/constants";
 import Profile from "../user/profile/Profile";
 import Discover from "../post/discover/Discover";
+import { getCurrentUserPosts } from "../util/ApiUtil";
 
 const { Header, Content } = Layout;
 
@@ -74,6 +75,10 @@ class App extends Component {
     this.props.history.push("/");
   };
 
+  handleGetUserPosts = () => {
+    getCurrentUserPosts().then(response => this.setState({ posts: response }));
+  };
+
   render() {
     if (this.state.isLoading) {
       return <LoadingIndicator />;
@@ -87,6 +92,7 @@ class App extends Component {
           <AppHeader
             isAuthenticated={this.state.isAuthenticated}
             currentUser={this.state.currentUser}
+            onGetUserPosts={this.handleGetUserPosts}
             {...this.props}
           />
         </Header>
@@ -141,6 +147,8 @@ class App extends Component {
                     currentUser={this.state.currentUser}
                     onLogout={this.handleLogout}
                     onUpdateCurrentUser={this.handleUpdateCurrentuser}
+                    onGetUserPosts={this.handleGetUserPosts}
+                    posts={this.state.posts}
                     {...props}
                   />
                 )}
