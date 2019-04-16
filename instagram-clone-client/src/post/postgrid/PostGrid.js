@@ -21,7 +21,7 @@ class PostGrid extends Component {
     return (
       <div>
         <List
-          grid={{ gutter: 9, column: 3 }}
+          grid={{ gutter: 16, column: 3 }}
           dataSource={this.props.posts}
           renderItem={item => (
             <List.Item>
