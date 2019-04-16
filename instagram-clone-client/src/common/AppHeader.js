@@ -32,12 +32,13 @@ class AppHeader extends Component {
           <Col span={8}>
             <div className="app-logo-container">
               <Link to="/">
-                <img
+                <span>𝓜𝔂 𝓜𝓸𝓶𝓮𝓷𝓽𝓼</span>
+                {/* <img
                   alt="logo"
                   src={
                     "http://parlezlocal.com/wp-content/uploads/2015/09/insta-logo.png"
                   }
-                />
+                /> */}
               </Link>
             </div>
           </Col>

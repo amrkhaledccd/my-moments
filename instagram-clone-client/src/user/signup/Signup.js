@@ -93,12 +93,7 @@ class Signup extends Component {
           <Row type="flex" justify="center">
             <Col pan={24}>
               <div className="logo-container">
-                <img
-                  alt="logo"
-                  src={
-                    "http://parlezlocal.com/wp-content/uploads/2015/09/insta-logo.png"
-                  }
-                />
+                <span>𝓜𝔂 𝓜𝓸𝓶𝓮𝓷𝓽𝓼</span>
               </div>
             </Col>
             <Col pan={24}>

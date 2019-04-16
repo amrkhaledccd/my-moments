@@ -24,12 +24,14 @@ class Login extends Component {
           <Row type="flex" justify="center">
             <Col pan={24}>
               <div className="logo-container">
-                <img
+                <span>𝓜𝔂 𝓜𝓸𝓶𝓮𝓷𝓽𝓼</span>
+
+                {/* <img
                   alt="logo"
                   src={
                     "http://parlezlocal.com/wp-content/uploads/2015/09/insta-logo.png"
                   }
-                />
+                /> */}
               </div>
             </Col>
             <Col pan={24}>

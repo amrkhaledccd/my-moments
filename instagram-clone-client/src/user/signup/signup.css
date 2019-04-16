@@ -6,6 +6,8 @@
   padding: 50px 50px 0px 50px;
   border: 1px solid #e1e0e0;
   background-color: #fff;
+  font-size: 32px;
+  font-weight: 700;
 }
 
 .login-link-container {
