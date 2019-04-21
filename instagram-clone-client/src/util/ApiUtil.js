@@ -54,6 +54,17 @@ export function getCurrentUser() {
   });
 }
 
+export function getUserProfile(username) {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+
+  return request({
+    url: API_BASE_URL + "/auth/users/summary/" + username,
+    method: "GET"
+  });
+}
+
 export function uploadImage(uploadImageRequest) {
   if (!localStorage.getItem(ACCESS_TOKEN)) {
     return Promise.reject("No access token set.");

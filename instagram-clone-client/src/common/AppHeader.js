@@ -23,6 +23,11 @@ class AppHeader extends Component {
         <Link to={`/users/${this.props.currentUser.username}`}>
           <Icon type="user" />
         </Link>
+      </Menu.Item>,
+      <Menu.Item key="userProfile2">
+        <Link to={`/users/amrkhaled2`}>
+          <Icon type="printer" />
+        </Link>
       </Menu.Item>
     ];
 
@@ -33,12 +38,6 @@ class AppHeader extends Component {
             <div className="app-logo-container">
               <Link to="/">
                 <span>𝓜𝔂 𝓜𝓸𝓶𝓮𝓷𝓽𝓼</span>
-                {/* <img
-                  alt="logo"
-                  src={
-                    "http://parlezlocal.com/wp-content/uploads/2015/09/insta-logo.png"
-                  }
-                /> */}
               </Link>
             </div>
           </Col>

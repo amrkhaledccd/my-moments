@@ -42,7 +42,7 @@ public class User {
         this.password = password;
         this.email = email;
         this.active = true;
-        this.roles = new HashSet<Role>() {{ new Role("USER"); }};
+        this.roles = new HashSet<>() {{ new Role("USER"); }};
     }
 
     @Id

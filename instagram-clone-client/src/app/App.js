@@ -32,7 +32,6 @@ class App extends Component {
     });
     getCurrentUser()
       .then(response => {
-        console.log("Current profile picture: " + response.profilePicture);
         this.setState({
           currentUser: response,
           isAuthenticated: true,

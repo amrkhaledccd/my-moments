@@ -12,22 +12,52 @@ import {
   notification
 } from "antd";
 import ProfileModal from "./ProfileModal";
-import { uploadImage, updateProfilePicture } from "../../util/ApiUtil";
+import {
+  uploadImage,
+  updateProfilePicture,
+  getUserProfile
+} from "../../util/ApiUtil";
 import PostGrid from "../../post/postgrid/PostGrid";
+import LoadingIndicator from "../../common/LoadingIndicator";
+import { ACCESS_TOKEN } from "../../common/constants";
 
 const TabPane = Tabs.TabPane;
 
 class Profile extends Component {
-  state = {
-    settingModalVisible: false,
-    profilePicModalVisible: false,
-    currentUser: { ...this.props.currentUser }
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      settingModalVisible: false,
+      profilePicModalVisible: false,
+      isLoading: false,
+      currentUser: {}
+    };
+  }
 
   componentDidMount = () => {
-    if (!this.props.isAuthenticated) {
+    if (!localStorage.getItem(ACCESS_TOKEN)) {
       this.props.history.push("/login");
     }
+
+    const username = this.props.match.params.username;
+    this.loadUserProfile(username);
+  };
+
+  componentDidUpdate = prevProps => {
+    if (this.props.match.params.username !== prevProps.match.params.username) {
+      const username = this.props.match.params.username;
+      this.loadUserProfile(username);
+    }
+  };
+
+  loadUserProfile = username => {
+    console.log("inside load profile");
+    this.setState({ isLoading: true });
+
+    getUserProfile(username).then(response => {
+      this.setState({ currentUser: response, isLoading: false });
+    });
   };
 
   showSettingModal = () => {
@@ -92,6 +122,9 @@ class Profile extends Component {
   };
 
   render() {
+    if (this.state.isLoading) {
+      return <LoadingIndicator />;
+    }
     let numOfPosts = 0;
 
     if (Array.isArray(this.props.posts)) {

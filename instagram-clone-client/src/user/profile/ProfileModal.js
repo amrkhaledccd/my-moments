@@ -45,7 +45,7 @@ class ProfileModal extends Component {
         closable={false}
         width={400}
         bodyStyle={{ padding: 0 }}
-        centered={true}
+        centered
       >
         <List
           dataSource={this.props.dataSource}

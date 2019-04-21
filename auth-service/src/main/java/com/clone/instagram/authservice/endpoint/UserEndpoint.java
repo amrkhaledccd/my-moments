@@ -120,4 +120,20 @@ public class UserEndpoint {
                 .profilePicture(userDetails.getUserProfile().getProfilePictureUrl())
                 .build();
     }
+
+    @GetMapping(value = "/users/summary/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getUserSummary(@PathVariable("username") String username) {
+        log.info("retrieving user {}", username);
+
+        return  userService
+                .findByUsername(username)
+                .map(user -> ResponseEntity.ok(UserSummary
+                        .builder()
+                        .id(user.getId())
+                        .username(user.getUsername())
+                        .name(user.getUserProfile().getDisplayName())
+                        .profilePicture(user.getUserProfile().getProfilePictureUrl())
+                        .build()))
+                .orElseThrow(() -> new ResourceNotFoundException(username));
+    }
 }
