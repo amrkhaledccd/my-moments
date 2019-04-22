@@ -107,6 +107,13 @@ public class UserEndpoint {
                 .orElseThrow(() -> new ResourceNotFoundException(username));
     }
 
+    @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> findAll() {
+        log.info("retrieving all users");
+
+        return ResponseEntity
+                .ok(userService.findAll());
+    }
 
     @GetMapping(value = "/users/me", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('USER')")

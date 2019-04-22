@@ -9,6 +9,7 @@ import Signup from "../user/signup/Signup";
 import NewsFeed from "../post/newsfeed/NewsFeed";
 import { getCurrentUser } from "../util/ApiUtil";
 import { ACCESS_TOKEN } from "../common/constants";
+import MeProfile from "../user/profile/MeProfile";
 import Profile from "../user/profile/Profile";
 import Discover from "../post/discover/Discover";
 import { getCurrentUserPosts } from "../util/ApiUtil";
@@ -32,6 +33,7 @@ class App extends Component {
     });
     getCurrentUser()
       .then(response => {
+        console.log("Current profile picture: " + response.profilePicture);
         this.setState({
           currentUser: response,
           isAuthenticated: true,
@@ -139,15 +141,26 @@ class App extends Component {
                 )}
               />
               <Route
-                path="/users/:username"
+                exact
+                path="/users/me"
                 render={props => (
-                  <Profile
+                  <MeProfile
                     isAuthenticated={this.state.isAuthenticated}
                     currentUser={this.state.currentUser}
                     onLogout={this.handleLogout}
                     onUpdateCurrentUser={this.handleUpdateCurrentuser}
                     onGetUserPosts={this.handleGetUserPosts}
                     posts={this.state.posts}
+                    {...props}
+                  />
+                )}
+              />
+              <Route
+                path="/users/:username"
+                render={props => (
+                  <Profile
+                    isAuthenticated={this.state.isAuthenticated}
+                    currentUser={this.state.currentUser}
                     {...props}
                   />
                 )}

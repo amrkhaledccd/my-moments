@@ -20,13 +20,8 @@ class AppHeader extends Component {
         <Icon type="heart" />
       </Menu.Item>,
       <Menu.Item key="userProfile">
-        <Link to={`/users/${this.props.currentUser.username}`}>
+        <Link to={`/users/me`}>
           <Icon type="user" />
-        </Link>
-      </Menu.Item>,
-      <Menu.Item key="userProfile2">
-        <Link to={`/users/amrkhaled2`}>
-          <Icon type="printer" />
         </Link>
       </Menu.Item>
     ];

@@ -11,29 +11,19 @@ import {
   Empty,
   notification
 } from "antd";
-import ProfileModal from "./ProfileModal";
-import {
-  uploadImage,
-  updateProfilePicture,
-  getUserProfile
-} from "../../util/ApiUtil";
-import PostGrid from "../../post/postgrid/PostGrid";
 import LoadingIndicator from "../../common/LoadingIndicator";
+import { getUserProfile, getUserPosts } from "../../util/ApiUtil";
+import PostGrid from "../../post/postgrid/PostGrid";
 import { ACCESS_TOKEN } from "../../common/constants";
 
 const TabPane = Tabs.TabPane;
 
 class Profile extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      settingModalVisible: false,
-      profilePicModalVisible: false,
-      isLoading: false,
-      currentUser: {}
-    };
-  }
+  state = {
+    isLoading: false,
+    currentUser: {},
+    posts: []
+  };
 
   componentDidMount = () => {
     if (!localStorage.getItem(ACCESS_TOKEN)) {
@@ -55,80 +45,36 @@ class Profile extends Component {
     console.log("inside load profile");
     this.setState({ isLoading: true });
 
-    getUserProfile(username).then(response => {
-      this.setState({ currentUser: response, isLoading: false });
-    });
-  };
-
-  showSettingModal = () => {
-    this.setState({ settingModalVisible: true });
-  };
-
-  hideSettingModal = () => {
-    this.setState({ settingModalVisible: false });
-  };
-
-  handleLogout = () => {
-    this.setState({ settingModalVisible: false });
-    this.props.onLogout();
-  };
-
-  showProfilePicModal = () => {
-    this.setState({ profilePicModalVisible: true });
-  };
-
-  hideProfilePicModal = () => {
-    this.setState({ profilePicModalVisible: false });
-  };
-
-  handleUpload = file => {
-    this.hideProfilePicModal();
-
-    const data = new FormData();
-    data.append("image", file);
-
-    uploadImage(data)
+    getUserProfile(username)
       .then(response => {
-        updateProfilePicture(response.uri)
-          .then(res => {
-            let currentUser = { ...this.state.currentUser };
-            currentUser.profilePicture = response.uri;
-
-            this.setState({
-              currentUser: { ...currentUser }
-            });
-
-            this.props.onUpdateCurrentUser(currentUser);
-
-            notification.success({
-              message: "MyMoments",
-              description: "Profile picture updated"
-            });
-          })
-          .catch(error => {
-            notification.error({
-              message: "MyMoments",
-              description: "Something went wrong. Please try again!"
-            });
-          });
+        this.setState({ currentUser: response, isLoading: false });
       })
       .catch(error => {
-        notification.error({
-          message: "MyMoments",
-          description:
-            error.message || "Something went wrong. Please try again!"
-        });
+        this.setState({ isLoading: false });
+
+        if (error.status === 404) {
+          notification.error({
+            message: "MyMoments",
+            description: "user not found"
+          });
+        }
       });
+  };
+
+  handleGetUserPosts = () => {
+    const username = this.props.match.params.username;
+    getUserPosts(username).then(response => this.setState({ posts: response }));
   };
 
   render() {
     if (this.state.isLoading) {
       return <LoadingIndicator />;
     }
+
     let numOfPosts = 0;
 
-    if (Array.isArray(this.props.posts)) {
-      numOfPosts = this.props.posts.length;
+    if (Array.isArray(this.state.posts)) {
+      numOfPosts = this.state.posts.length;
     }
 
     return (
@@ -142,7 +88,6 @@ class Profile extends Component {
                     <Avatar
                       src={this.state.currentUser.profilePicture}
                       className="user-avatar-circle"
-                      onClick={this.showProfilePicModal}
                     />
                   </div>
                 </Col>
@@ -154,14 +99,9 @@ class Profile extends Component {
                       </h1>
                     </Col>
                     <Col span={4}>
-                      <Button className="edit-profile">Edit profile</Button>
-                    </Col>
-                    <Col span={11}>
-                      <Icon
-                        className="setting"
-                        type="setting"
-                        onClick={this.showSettingModal}
-                      />
+                      <Button type="primary" className="follow-btn">
+                        Follow
+                      </Button>
                     </Col>
                   </Row>
                   <Row>
@@ -214,26 +154,8 @@ class Profile extends Component {
                 key="1"
               >
                 <PostGrid
-                  onGetUserPosts={this.props.onGetUserPosts}
-                  posts={this.props.posts}
-                />
-              </TabPane>
-              <TabPane
-                tab={
-                  <span>
-                    <Icon type="save" />
-                    SAVED
-                  </span>
-                }
-                key="2"
-              >
-                <Empty
-                  image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
-                  description={
-                    <span>
-                      Save photos and videos that you want to see again
-                    </span>
-                  }
+                  onGetUserPosts={this.handleGetUserPosts}
+                  posts={this.state.posts}
                 />
               </TabPane>
               <TabPane
@@ -247,44 +169,12 @@ class Profile extends Component {
               >
                 <Empty
                   image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
-                  description={
-                    <span>
-                      When people tag you in photos, they'll appear here.
-                    </span>
-                  }
+                  description={<span>No Posts Yet</span>}
                 />
               </TabPane>
             </Tabs>
           </Col>
         </Row>
-
-        <ProfileModal
-          visible={this.state.settingModalVisible}
-          title={null}
-          dataSource={[
-            { onClick: null, text: "Change password" },
-            { onClick: null, text: "Nametag" },
-            { onClick: null, text: "Authorized App" },
-            { onClick: null, text: "Notifications" },
-            { onClick: null, text: "Privacy and Security" },
-            { onClick: this.handleLogout, text: "Logout" },
-            { onClick: this.hideSettingModal, text: "Cancel" }
-          ]}
-        />
-
-        <ProfileModal
-          visible={this.state.profilePicModalVisible}
-          title="Change profile photo"
-          dataSource={[
-            {
-              onClick: null,
-              text: "Upload Photo",
-              isUpload: true,
-              onUpload: this.handleUpload
-            },
-            { onClick: this.hideProfilePicModal, text: "Cancel" }
-          ]}
-        />
       </div>
     );
   }

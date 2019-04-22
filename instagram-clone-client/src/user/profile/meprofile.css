@@ -18,6 +18,7 @@
 .user-avatar-circle {
   width: 150px;
   height: 150px;
+  cursor: pointer;
 }
 
 .ant-tabs-ink-bar {
@@ -46,8 +47,16 @@
   font-size: 16px;
 }
 
-.follow-btn {
+.edit-profile {
   font-weight: 700;
+  color: #000;
+}
+
+.setting {
+  margin-left: 20px;
+  font-size: 26px;
+  line-height: 37px;
+  cursor: pointer;
 }
 
 .ant-list-grid .ant-list-item {

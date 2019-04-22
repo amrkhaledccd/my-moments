@@ -65,6 +65,17 @@ export function getUserProfile(username) {
   });
 }
 
+export function getAllUsers() {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+
+  return request({
+    url: API_BASE_URL + "/auth/users",
+    method: "GET"
+  });
+}
+
 export function uploadImage(uploadImageRequest) {
   if (!localStorage.getItem(ACCESS_TOKEN)) {
     return Promise.reject("No access token set.");
@@ -109,6 +120,17 @@ export function getCurrentUserPosts() {
 
   return request({
     url: API_BASE_URL + "/post/posts/me",
+    method: "GET"
+  });
+}
+
+export function getUserPosts(username) {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+
+  return request({
+    url: API_BASE_URL + "/post/posts/" + username,
     method: "GET"
   });
 }

@@ -1,0 +1,36 @@
+.discover-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  margin: 0 auto;
+  margin-top: 40px;
+}
+
+.slick-next::before,
+.slick-prev::before {
+  color: #000;
+  font-size: 24px;
+}
+
+.avatar-container {
+  justify-content: center;
+  display: flex;
+  padding: 10px;
+}
+
+.avatar {
+  width: 140px;
+  height: 140px;
+}
+
+.card-meta {
+  display: flex;
+  justify-content: center;
+}
+
+.title {
+  padding: "20px 0px";
+}
+
+.title h3 {
+  color: #999;
+}

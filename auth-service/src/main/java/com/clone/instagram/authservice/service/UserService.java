@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,6 +25,11 @@ public class UserService {
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    public List<User> findAll() {
+        log.info("retrieving all users");
+        return userRepository.findAll();
     }
 
     public Optional<User> findByUsername(String username) {
