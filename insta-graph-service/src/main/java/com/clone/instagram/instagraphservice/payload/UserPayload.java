@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 public class UserPayload {
 
-    private String userId;
+    private String id;
     private String username;
     private String name;
-    private String profilePic;
+    private String profilePicture;
 }

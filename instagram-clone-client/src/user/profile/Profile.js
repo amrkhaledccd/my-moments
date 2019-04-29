@@ -12,7 +12,13 @@ import {
   notification
 } from "antd";
 import LoadingIndicator from "../../common/LoadingIndicator";
-import { getUserProfile, getUserPosts } from "../../util/ApiUtil";
+import {
+  getUserProfile,
+  getUserPosts,
+  getfollowersAndFollowing,
+  follow,
+  isFollowing
+} from "../../util/ApiUtil";
 import PostGrid from "../../post/postgrid/PostGrid";
 import { ACCESS_TOKEN } from "../../common/constants";
 
@@ -21,8 +27,14 @@ const TabPane = Tabs.TabPane;
 class Profile extends Component {
   state = {
     isLoading: false,
+    followers: 0,
+    following: 0,
     currentUser: {},
-    posts: []
+    loggedInUser: this.props.currentUser,
+    posts: [],
+    followLoading: false,
+    isFollowing: false,
+    followText: "Follow"
   };
 
   componentDidMount = () => {
@@ -32,12 +44,19 @@ class Profile extends Component {
 
     const username = this.props.match.params.username;
     this.loadUserProfile(username);
+    this.getfollowersAndFollowing(username);
+    if (this.props.currentUser !== null) {
+      this.isFollowing(this.props.currentUser.username, username);
+    }
   };
 
   componentDidUpdate = prevProps => {
     if (this.props.match.params.username !== prevProps.match.params.username) {
       const username = this.props.match.params.username;
       this.loadUserProfile(username);
+      this.getfollowersAndFollowing(username);
+
+      this.isFollowing(this.props.currentUser.username, username);
     }
   };
 
@@ -61,9 +80,48 @@ class Profile extends Component {
       });
   };
 
+  getfollowersAndFollowing = username => {
+    getfollowersAndFollowing(username).then(response =>
+      this.setState({
+        followers: response.inDegree,
+        following: response.outDegree
+      })
+    );
+  };
+
+  isFollowing = (usernameA, usernameB) => {
+    isFollowing(usernameA, usernameB).then(response => {
+      if (response) {
+        this.setState({ isFollowing: true });
+      } else {
+        isFollowing(usernameB, usernameA).then(res => {
+          if (res) {
+            this.setState({ isFollowing: false, followText: "Follow Back" });
+          } else {
+            this.setState({ isFollowing: false, followText: "Follow" });
+          }
+        });
+      }
+    });
+  };
+
   handleGetUserPosts = () => {
     const username = this.props.match.params.username;
     getUserPosts(username).then(response => this.setState({ posts: response }));
+  };
+
+  handleFollow = () => {
+    this.setState({ followLoading: true });
+
+    const followRequest = {
+      follower: this.props.currentUser,
+      following: this.state.currentUser
+    };
+
+    follow(followRequest).then(response => {
+      this.setState({ followLoading: false, isFollowing: true });
+      this.getfollowersAndFollowing(this.state.currentUser.username);
+    });
   };
 
   render() {
@@ -75,6 +133,27 @@ class Profile extends Component {
 
     if (Array.isArray(this.state.posts)) {
       numOfPosts = this.state.posts.length;
+    }
+
+    let followBtn;
+
+    if (!this.state.isFollowing) {
+      followBtn = (
+        <Button
+          type="primary"
+          className="follow-btn"
+          loading={this.state.followLoading}
+          onClick={this.handleFollow}
+        >
+          {this.state.followText}
+        </Button>
+      );
+    } else {
+      followBtn = (
+        <Button type="secondary" className="follow-btn">
+          Following
+        </Button>
+      );
     }
 
     return (
@@ -98,11 +177,7 @@ class Profile extends Component {
                         {this.state.currentUser.username}
                       </h1>
                     </Col>
-                    <Col span={4}>
-                      <Button type="primary" className="follow-btn">
-                        Follow
-                      </Button>
-                    </Col>
+                    <Col span={4}>{followBtn}</Col>
                   </Row>
                   <Row>
                     <Col span={15}>
@@ -111,8 +186,8 @@ class Profile extends Component {
                         split={false}
                         dataSource={[
                           { num: numOfPosts, str: " posts" },
-                          { num: 0, str: " followers" },
-                          { num: 0, str: " following" }
+                          { num: this.state.followers, str: " followers" },
+                          { num: this.state.following, str: " following" }
                         ]}
                         renderItem={item => (
                           <List.Item>

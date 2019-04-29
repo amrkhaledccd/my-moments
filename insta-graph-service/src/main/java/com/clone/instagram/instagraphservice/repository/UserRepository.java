@@ -15,4 +15,7 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
 
     @Query("MATCH (n)<-[r]-() where n.username={0} RETURN COUNT(r)")
     Long findInDegree(String username);
+
+    @Query("MATCH (n1:User{ username:{0} }), (n2:User{username:{1} }) RETURN EXISTS((n1)-[:IS_FOLLOWING]->(n2))")
+    boolean isFollowing(String userA, String userB);
 }

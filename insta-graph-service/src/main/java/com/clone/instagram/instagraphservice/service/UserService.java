@@ -71,4 +71,8 @@ public class UserService {
                 .inDegree(in)
                 .build();
     }
+
+    public boolean isFollwoing(String userA, String userb) {
+        return userRepository.isFollowing(userA, userb);
+    }
 }

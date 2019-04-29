@@ -134,3 +134,37 @@ export function getUserPosts(username) {
     method: "GET"
   });
 }
+
+export function follow(followRequest) {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+
+  return request({
+    url: API_BASE_URL + "/graph/users/followers",
+    method: "POST",
+    body: JSON.stringify(followRequest)
+  });
+}
+
+export function getfollowersAndFollowing(username) {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+
+  return request({
+    url: API_BASE_URL + "/graph/users/" + username + "/degree",
+    method: "GET"
+  });
+}
+
+export function isFollowing(usernameA, usernameB) {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+
+  return request({
+    url: API_BASE_URL + "/graph/users/" + usernameA + "/following/" + usernameB,
+    method: "GET"
+  });
+}

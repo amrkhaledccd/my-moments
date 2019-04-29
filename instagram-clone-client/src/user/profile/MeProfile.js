@@ -12,7 +12,11 @@ import {
   notification
 } from "antd";
 import ProfileModal from "./ProfileModal";
-import { uploadImage, updateProfilePicture } from "../../util/ApiUtil";
+import {
+  uploadImage,
+  updateProfilePicture,
+  getfollowersAndFollowing
+} from "../../util/ApiUtil";
 import PostGrid from "../../post/postgrid/PostGrid";
 import { ACCESS_TOKEN } from "../../common/constants";
 
@@ -22,6 +26,8 @@ class MeProfile extends Component {
   state = {
     settingModalVisible: false,
     profilePicModalVisible: false,
+    followers: 0,
+    following: 0,
     currentUser: { ...this.props.currentUser }
   };
 
@@ -29,6 +35,17 @@ class MeProfile extends Component {
     if (!localStorage.getItem(ACCESS_TOKEN)) {
       this.props.history.push("/login");
     }
+
+    this.getfollowersAndFollowing(this.state.currentUser.username);
+  };
+
+  getfollowersAndFollowing = username => {
+    getfollowersAndFollowing(username).then(response =>
+      this.setState({
+        followers: response.inDegree,
+        following: response.outDegree
+      })
+    );
   };
 
   showSettingModal = () => {
@@ -139,8 +156,8 @@ class MeProfile extends Component {
                         split={false}
                         dataSource={[
                           { num: numOfPosts, str: " posts" },
-                          { num: 0, str: " followers" },
-                          { num: 0, str: " following" }
+                          { num: this.state.followers, str: " followers" },
+                          { num: this.state.following, str: " following" }
                         ]}
                         renderItem={item => (
                           <List.Item>
