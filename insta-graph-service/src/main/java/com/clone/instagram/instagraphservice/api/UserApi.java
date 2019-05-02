@@ -64,4 +64,15 @@ public class UserApi {
 
         return ResponseEntity.ok(userService.isFollwoing(usernameA, usernameB));
     }
+
+    @GetMapping("/users/{username}/followers")
+    public ResponseEntity<?> findFollowers(@PathVariable String username) {
+        return ResponseEntity.ok(userService.findFollowers(username));
+    }
+
+    @GetMapping("/users/{username}/following")
+    public ResponseEntity<?> findFollowing(@PathVariable String username) {
+        return ResponseEntity.ok(userService.findFollowing(username));
+    }
+
 }
