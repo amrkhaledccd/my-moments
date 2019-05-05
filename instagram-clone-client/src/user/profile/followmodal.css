@@ -1,0 +1,27 @@
+.follow-modal-item {
+  color: #000;
+  cursor: pointer;
+}
+
+.follow-avatar-circle {
+  width: 40px;
+  height: 40px;
+}
+
+.follow-modal-item-row {
+  width: 100%;
+}
+
+.follow-username {
+  color: #999;
+  font-size: 14px;
+}
+
+.follow-name {
+  font-size: 16px;
+  line-height: 18px;
+}
+
+.pointer {
+  cursor: pointer;
+}

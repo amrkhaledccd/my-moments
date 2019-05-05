@@ -1,14 +1,21 @@
 import React, { Component } from "react";
 import { Empty, List } from "antd";
+import LoadingIndicator from "../../common/LoadingIndicator";
 
 class PostGrid extends Component {
-  state = {};
+  state = { isLoading: false };
 
   componentDidMount = () => {
+    this.setState({ isLoading: true });
     this.props.onGetUserPosts();
+    this.setState({ isLoading: false });
   };
 
   render() {
+    if (this.state.isLoading) {
+      return <LoadingIndicator />;
+    }
+
     if (!Array.isArray(this.props.posts) || !this.props.posts.length) {
       return (
         <Empty

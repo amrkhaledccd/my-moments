@@ -5,7 +5,6 @@ import { Card, Avatar, Button } from "antd";
 import { getAllUsers } from "../../util/ApiUtil";
 import { ACCESS_TOKEN } from "../../common/constants";
 import LoadingIndicator from "../../common/LoadingIndicator";
-import { Link, withRouter } from "react-router-dom";
 
 const { Meta } = Card;
 
@@ -91,4 +90,4 @@ class Discover extends Component {
   }
 }
 
-export default withRouter(Discover);
+export default Discover;

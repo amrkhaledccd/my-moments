@@ -168,3 +168,25 @@ export function isFollowing(usernameA, usernameB) {
     method: "GET"
   });
 }
+
+export function getfollowers(username) {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+
+  return request({
+    url: API_BASE_URL + "/graph/users/" + username + "/followers",
+    method: "GET"
+  });
+}
+
+export function getfollowing(username) {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+
+  return request({
+    url: API_BASE_URL + "/graph/users/" + username + "/following",
+    method: "GET"
+  });
+}

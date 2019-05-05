@@ -9,13 +9,16 @@ import {
   Button,
   List,
   Empty,
-  notification
+  notification,
+  Spin
 } from "antd";
 import ProfileModal from "./ProfileModal";
+import FollowModal from "./FollowModal";
 import {
   uploadImage,
   updateProfilePicture,
-  getfollowersAndFollowing
+  getfollowersAndFollowing,
+  getfollowers
 } from "../../util/ApiUtil";
 import PostGrid from "../../post/postgrid/PostGrid";
 import { ACCESS_TOKEN } from "../../common/constants";
@@ -26,6 +29,8 @@ class MeProfile extends Component {
   state = {
     settingModalVisible: false,
     profilePicModalVisible: false,
+    profilePicUploading: false,
+    followersModalVisible: false,
     followers: 0,
     following: 0,
     currentUser: { ...this.props.currentUser }
@@ -70,6 +75,7 @@ class MeProfile extends Component {
   };
 
   handleUpload = file => {
+    this.setState({ profilePicUploading: true });
     this.hideProfilePicModal();
 
     const data = new FormData();
@@ -107,6 +113,24 @@ class MeProfile extends Component {
             error.message || "Something went wrong. Please try again!"
         });
       });
+
+    this.setState({ profilePicUploading: false });
+  };
+
+  handleFollowersClick = () => {
+    if (this.state.followers > 0) {
+      getfollowers(this.state.currentUser.username).then(response =>
+        this.setState({ followerList: response, followersModalVisible: true })
+      );
+    }
+  };
+
+  handleFollowersCancel = () => {
+    this.setState({ followersModalVisible: false, followerList: [] });
+  };
+
+  handleOnItemClick = username => {
+    this.props.history.push("/users/" + username);
   };
 
   render() {
@@ -124,11 +148,16 @@ class MeProfile extends Component {
               <Row>
                 <Col span={8}>
                   <div className="user-avatar">
-                    <Avatar
-                      src={this.state.currentUser.profilePicture}
-                      className="user-avatar-circle"
-                      onClick={this.showProfilePicModal}
-                    />
+                    <Spin
+                      spinning={this.state.profilePicUploading}
+                      tip="Uploading..."
+                    >
+                      <Avatar
+                        src={this.state.currentUser.profilePicture}
+                        className="user-avatar-circle"
+                        onClick={this.showProfilePicModal}
+                      />
+                    </Spin>
                   </div>
                 </Col>
                 <Col span={16}>
@@ -155,14 +184,51 @@ class MeProfile extends Component {
                         grid={{ gutter: 2, column: 3 }}
                         split={false}
                         dataSource={[
-                          { num: numOfPosts, str: " posts" },
-                          { num: this.state.followers, str: " followers" },
-                          { num: this.state.following, str: " following" }
+                          {
+                            content: (
+                              <span>
+                                <span
+                                  style={{ fontWeight: 700, marginRight: 5 }}
+                                >
+                                  {numOfPosts}
+                                </span>
+                                posts
+                              </span>
+                            )
+                          },
+                          {
+                            content: (
+                              <span>
+                                <span
+                                  style={{ fontWeight: 700, marginRight: 5 }}
+                                >
+                                  {this.state.followers}
+                                </span>
+                                followers
+                              </span>
+                            ),
+                            onClick: this.handleFollowersClick,
+                            className: "pointer"
+                          },
+                          {
+                            content: (
+                              <span>
+                                <span
+                                  style={{ fontWeight: 700, marginRight: 5 }}
+                                >
+                                  {this.state.following}
+                                </span>
+                                following
+                              </span>
+                            )
+                          }
                         ]}
                         renderItem={item => (
-                          <List.Item>
-                            <span style={{ fontWeight: 700 }}>{item.num}</span>
-                            {item.str}
+                          <List.Item
+                            className={item.className}
+                            onClick={item.onClick}
+                          >
+                            {item.content}
                           </List.Item>
                         )}
                       />
@@ -267,6 +333,13 @@ class MeProfile extends Component {
             },
             { onClick: this.hideProfilePicModal, text: "Cancel" }
           ]}
+        />
+        <FollowModal
+          visible={this.state.followersModalVisible}
+          title="Followers"
+          dataSource={this.state.followerList}
+          onCancel={this.handleFollowersCancel}
+          onItemClick={this.handleOnItemClick}
         />
       </div>
     );
