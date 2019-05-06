@@ -18,7 +18,8 @@ import {
   uploadImage,
   updateProfilePicture,
   getfollowersAndFollowing,
-  getfollowers
+  getfollowers,
+  getfollowing
 } from "../../util/ApiUtil";
 import PostGrid from "../../post/postgrid/PostGrid";
 import { ACCESS_TOKEN } from "../../common/constants";
@@ -31,6 +32,7 @@ class MeProfile extends Component {
     profilePicModalVisible: false,
     profilePicUploading: false,
     followersModalVisible: false,
+    followingModalVisible: false,
     followers: 0,
     following: 0,
     currentUser: { ...this.props.currentUser }
@@ -125,8 +127,20 @@ class MeProfile extends Component {
     }
   };
 
+  handleFollowingClick = () => {
+    if (this.state.following > 0) {
+      getfollowing(this.state.currentUser.username).then(response =>
+        this.setState({ followingList: response, followingModalVisible: true })
+      );
+    }
+  };
+
   handleFollowersCancel = () => {
     this.setState({ followersModalVisible: false, followerList: [] });
+  };
+
+  handleFollowingCancel = () => {
+    this.setState({ followingModalVisible: false, followingList: [] });
   };
 
   handleOnItemClick = username => {
@@ -220,7 +234,9 @@ class MeProfile extends Component {
                                 </span>
                                 following
                               </span>
-                            )
+                            ),
+                            onClick: this.handleFollowingClick,
+                            className: "pointer"
                           }
                         ]}
                         renderItem={item => (
@@ -339,6 +355,13 @@ class MeProfile extends Component {
           title="Followers"
           dataSource={this.state.followerList}
           onCancel={this.handleFollowersCancel}
+          onItemClick={this.handleOnItemClick}
+        />
+        <FollowModal
+          visible={this.state.followingModalVisible}
+          title="Following"
+          dataSource={this.state.followingList}
+          onCancel={this.handleFollowingCancel}
           onItemClick={this.handleOnItemClick}
         />
       </div>

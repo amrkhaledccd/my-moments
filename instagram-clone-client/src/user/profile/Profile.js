@@ -17,9 +17,12 @@ import {
   getUserPosts,
   getfollowersAndFollowing,
   follow,
-  isFollowing
+  isFollowing,
+  getfollowers,
+  getfollowing
 } from "../../util/ApiUtil";
 import PostGrid from "../../post/postgrid/PostGrid";
+import FollowModal from "./FollowModal";
 import { ACCESS_TOKEN } from "../../common/constants";
 
 const TabPane = Tabs.TabPane;
@@ -29,6 +32,8 @@ class Profile extends Component {
     isLoading: false,
     followers: 0,
     following: 0,
+    followersModalVisible: false,
+    followingModalVisible: false,
     currentUser: {},
     loggedInUser: this.props.currentUser,
     posts: [],
@@ -52,6 +57,8 @@ class Profile extends Component {
 
   componentDidUpdate = prevProps => {
     if (this.props.match.params.username !== prevProps.match.params.username) {
+      this.handleFollowersCancel();
+      this.handleFollowingCancel();
       const username = this.props.match.params.username;
       this.loadUserProfile(username);
       this.getfollowersAndFollowing(username);
@@ -124,6 +131,34 @@ class Profile extends Component {
     });
   };
 
+  handleFollowersClick = () => {
+    if (this.state.followers > 0) {
+      getfollowers(this.state.currentUser.username).then(response =>
+        this.setState({ followerList: response, followersModalVisible: true })
+      );
+    }
+  };
+
+  handleFollowingClick = () => {
+    if (this.state.following > 0) {
+      getfollowing(this.state.currentUser.username).then(response =>
+        this.setState({ followingList: response, followingModalVisible: true })
+      );
+    }
+  };
+
+  handleFollowersCancel = () => {
+    this.setState({ followersModalVisible: false, followerList: [] });
+  };
+
+  handleFollowingCancel = () => {
+    this.setState({ followingModalVisible: false, followingList: [] });
+  };
+
+  handleOnItemClick = username => {
+    this.props.history.push("/users/" + username);
+  };
+
   render() {
     if (this.state.isLoading) {
       return <LoadingIndicator />;
@@ -185,14 +220,53 @@ class Profile extends Component {
                         grid={{ gutter: 2, column: 3 }}
                         split={false}
                         dataSource={[
-                          { num: numOfPosts, str: " posts" },
-                          { num: this.state.followers, str: " followers" },
-                          { num: this.state.following, str: " following" }
+                          {
+                            content: (
+                              <span>
+                                <span
+                                  style={{ fontWeight: 700, marginRight: 5 }}
+                                >
+                                  {numOfPosts}
+                                </span>
+                                posts
+                              </span>
+                            )
+                          },
+                          {
+                            content: (
+                              <span>
+                                <span
+                                  style={{ fontWeight: 700, marginRight: 5 }}
+                                >
+                                  {this.state.followers}
+                                </span>
+                                followers
+                              </span>
+                            ),
+                            onClick: this.handleFollowersClick,
+                            className: "pointer"
+                          },
+                          {
+                            content: (
+                              <span>
+                                <span
+                                  style={{ fontWeight: 700, marginRight: 5 }}
+                                >
+                                  {this.state.following}
+                                </span>
+                                following
+                              </span>
+                            ),
+                            onClick: this.handleFollowingClick,
+                            className: "pointer"
+                          }
                         ]}
                         renderItem={item => (
-                          <List.Item>
-                            <span style={{ fontWeight: 700 }}>{item.num}</span>
-                            {item.str}
+                          <List.Item
+                            className={item.className}
+                            onClick={item.onClick}
+                          >
+                            {item.content}
                           </List.Item>
                         )}
                       />
@@ -250,6 +324,20 @@ class Profile extends Component {
             </Tabs>
           </Col>
         </Row>
+        <FollowModal
+          visible={this.state.followersModalVisible}
+          title="Followers"
+          dataSource={this.state.followerList}
+          onCancel={this.handleFollowersCancel}
+          onItemClick={this.handleOnItemClick}
+        />
+        <FollowModal
+          visible={this.state.followingModalVisible}
+          title="Following"
+          dataSource={this.state.followingList}
+          onCancel={this.handleFollowingCancel}
+          onItemClick={this.handleOnItemClick}
+        />
       </div>
     );
   }
