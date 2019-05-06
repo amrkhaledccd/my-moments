@@ -14,4 +14,8 @@ This will be updated later but for now I wil add some screenshots of the progres
 
 ![Screenshot](screenshots/3.png)
 
+![Screenshot](screenshots/6.png)
+
+![Screenshot](screenshots/5.png)
+
 
