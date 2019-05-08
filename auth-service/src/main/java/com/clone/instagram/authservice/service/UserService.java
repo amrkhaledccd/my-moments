@@ -3,6 +3,7 @@ package com.clone.instagram.authservice.service;
 import com.clone.instagram.authservice.exception.EmailAlreadyExistsException;
 import com.clone.instagram.authservice.exception.ResourceNotFoundException;
 import com.clone.instagram.authservice.exception.UsernameAlreadyExistsException;
+import com.clone.instagram.authservice.messaging.UserEventSender;
 import com.clone.instagram.authservice.model.Role;
 import com.clone.instagram.authservice.repository.UserRepository;
 import com.clone.instagram.authservice.model.User;
@@ -21,10 +22,14 @@ public class UserService {
 
     private PasswordEncoder passwordEncoder;
     private UserRepository userRepository;
+    private UserEventSender userEventSender;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository,
+                       PasswordEncoder passwordEncoder,
+                       UserEventSender userEventSender) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userEventSender = userEventSender;
     }
 
     public List<User> findAll() {
@@ -58,7 +63,11 @@ public class UserService {
         user.setRoles(new HashSet<>() {{
             add(Role.USER);
         }});
-        return userRepository.save(user);
+
+        User savedUser = userRepository.save(user);
+        userEventSender.sendUserCreated(savedUser);
+
+        return savedUser;
     }
 
     public User updateProfilePicture(String uri, String id) {

@@ -6,6 +6,15 @@ spring:
     mongodb:
       database: instaclone_auth
 
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+      bindings:
+        momentsUserChanged:
+          destination: moments.user.changed
+          contentType: application/json
 server:
   port: 9000
 

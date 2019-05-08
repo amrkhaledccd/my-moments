@@ -7,4 +7,6 @@ cd ../insta-api-gateway
 cd ../insta-media-service
 ./run.sh &
 cd ../insta-post-service
+./run.sh &
+cd ../insta-graph-service
 ./run.sh
