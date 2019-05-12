@@ -62,7 +62,7 @@ public class UserApi {
         log.info("received request to check is user {} is following {}"
                 , usernameA, usernameB);
 
-        return ResponseEntity.ok(userService.isFollwoing(usernameA, usernameB));
+        return ResponseEntity.ok(userService.isFollowing(usernameA, usernameB));
     }
 
     @GetMapping("/users/{username}/followers")

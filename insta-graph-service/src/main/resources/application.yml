@@ -8,6 +8,20 @@ spring:
       username: neo4j
       password: admin
 
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+      bindings:
+        momentsUserChanged:
+          destination: moments.user.changed
+          contentType: application/json
+          group: graphService
+          consumer:
+            startOffset: latest
+            autoCommitOffset: false
+
 server:
   port: 8002
 

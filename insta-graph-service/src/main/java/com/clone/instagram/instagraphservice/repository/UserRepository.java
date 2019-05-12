@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface UserRepository extends Neo4jRepository<User, Long> {
 
     Optional<User> findByUserId(String userId);
+    Optional<User> findByUsername(String username);
 
     @Query("MATCH (n)-[r]->() where n.username={0} RETURN COUNT(r)")
     Long findOutDegree(String username);
