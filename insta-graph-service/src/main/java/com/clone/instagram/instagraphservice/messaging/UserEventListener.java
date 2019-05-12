@@ -43,7 +43,9 @@ public class UserEventListener {
                 break;
         }
 
-        acknowledgment.acknowledge();
+        if(acknowledgment != null) {
+            acknowledgment.acknowledge();
+        }
     }
 
     private User convertTo(UserEventPayload payload) {
