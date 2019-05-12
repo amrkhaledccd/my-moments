@@ -76,11 +76,11 @@ public class UserService {
        return userRepository
                .findById(id)
                .map(user -> {
+                   String oldProfilePic = user.getUserProfile().getProfilePictureUrl();
                    user.getUserProfile().setProfilePictureUrl(uri);
                    User savedUser = userRepository.save(user);
 
-                   userEventSender.sendUserUpdated(savedUser,
-                           user.getUserProfile().getProfilePictureUrl());
+                   userEventSender.sendUserUpdated(savedUser, oldProfilePic);
 
                    return savedUser;
                })
