@@ -1,6 +1,7 @@
 package com.clone.instagram.instagraphservice.service;
 
 import com.clone.instagram.instagraphservice.exception.UsernameAlreadyExistsException;
+import com.clone.instagram.instagraphservice.exception.UsernameNotExistsException;
 import com.clone.instagram.instagraphservice.model.Friendship;
 import com.clone.instagram.instagraphservice.model.NodeDegree;
 import com.clone.instagram.instagraphservice.model.User;
@@ -36,6 +37,24 @@ public class UserService {
         log.info("user {} save successfully", saveUser.getUsername());
 
         return saveUser;
+    }
+
+    public User updateUser(User user) {
+
+       return userRepository
+                .findByUsername(user.getUsername())
+                .map(savedUser -> {
+                    savedUser.setName(user.getName());
+                    savedUser.setUsername(user.getUsername());
+                    savedUser.setProfilePic(user.getProfilePic());
+
+                    savedUser = userRepository.save(savedUser);
+                    log.info("user {} updated successfully", savedUser.getUsername());
+
+                    return savedUser;
+                })
+                .orElseThrow(() -> new UsernameNotExistsException(
+                                String.format("user %s not exists", user.getUsername())));
     }
 
     @Transactional

@@ -29,10 +29,11 @@ public class UserEventSender {
         sendUserChangedEvent(convertTo(user, UserEventType.UPDATED));
     }
 
-    public void sendProfilePicChanged(User user, String oldPicUrl) {
-        log.info("sending profile pic changed event for user {}", user.getUsername());
+    public void sendUserUpdated(User user, String oldPicUrl) {
+        log.info("sending user updated (profile pic changed) event for user {}",
+                user.getUsername());
 
-        UserEventPayload payload = convertTo(user, UserEventType.PROFILE_PIC_CHANGED);
+        UserEventPayload payload = convertTo(user, UserEventType.UPDATED);
         payload.setOldProfilePicUrl(oldPicUrl);
 
         sendUserChangedEvent(payload);

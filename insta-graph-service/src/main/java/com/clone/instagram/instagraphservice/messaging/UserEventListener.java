@@ -38,6 +38,9 @@ public class UserEventListener {
             case CREATED:
                 userService.addUser(user);
                 break;
+            case UPDATED:
+                userService.updateUser(user);
+                break;
         }
 
         acknowledgment.acknowledge();

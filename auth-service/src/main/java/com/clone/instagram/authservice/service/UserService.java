@@ -77,7 +77,12 @@ public class UserService {
                .findById(id)
                .map(user -> {
                    user.getUserProfile().setProfilePictureUrl(uri);
-                   return userRepository.save(user);
+                   User savedUser = userRepository.save(user);
+
+                   userEventSender.sendUserUpdated(savedUser,
+                           user.getUserProfile().getProfilePictureUrl());
+
+                   return savedUser;
                })
                .orElseThrow(() ->
                        new ResourceNotFoundException(String.format("user id %s not found", id)));
