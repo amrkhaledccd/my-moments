@@ -2,6 +2,7 @@ package com.clone.instagram.instapostservice.service;
 
 import com.clone.instagram.instapostservice.exception.NotAllowedException;
 import com.clone.instagram.instapostservice.exception.ResourceNotFoundException;
+import com.clone.instagram.instapostservice.messaging.PostEventSender;
 import com.clone.instagram.instapostservice.model.Post;
 import com.clone.instagram.instapostservice.payload.PostRequest;
 import com.clone.instagram.instapostservice.repository.PostRepository;
@@ -18,12 +19,21 @@ public class PostService {
     @Autowired
     private PostRepository postRepository;
 
+    @Autowired
+    private PostEventSender postEventSender;
 
     public Post createPost(PostRequest postRequest) {
         log.info("creating post image url {}", postRequest.getImageUrl());
 
         Post post = new Post(postRequest.getImageUrl(), postRequest.getCaption());
-        return postRepository.save(post);
+
+        post = postRepository.save(post);
+        postEventSender.sendPostCreated(post);
+
+        log.info("post {} is saved successfully for user {}",
+                post.getId(), post.getUsername());
+
+        return post;
     }
 
     public void deletePost(String postId, String username) {
@@ -38,6 +48,7 @@ public class PostService {
                     }
 
                     postRepository.delete(post);
+                    postEventSender.sendPostDeleted(post);
                     return post;
                 })
                 .orElseThrow(() -> {
