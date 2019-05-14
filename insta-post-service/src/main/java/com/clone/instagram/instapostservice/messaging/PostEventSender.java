@@ -4,6 +4,7 @@ package com.clone.instagram.instapostservice.messaging;
 import com.clone.instagram.instapostservice.model.Post;
 import com.clone.instagram.instapostservice.payload.PostEventPayload;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 public class PostEventSender {
 
     private PostEventStream channels;
-    private final String KEY_HEADER = "key";
 
     public PostEventSender(PostEventStream channels) {
         this.channels = channels;
@@ -40,7 +40,7 @@ public class PostEventSender {
         Message<PostEventPayload> message =
                 MessageBuilder
                         .withPayload(payload)
-                        .setHeader(KEY_HEADER, payload.getId())
+                        .setHeader(KafkaHeaders.MESSAGE_KEY, payload.getId())
                         .build();
 
         channels.momentsPostChanged().send(message);
