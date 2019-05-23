@@ -11,6 +11,9 @@ spring:
       kafka:
         binder:
           brokers: localhost:9092
+          configuration:
+            key:
+              serializer: org.apache.kafka.common.serialization.StringSerializer
       bindings:
         momentsPostChanged:
           destination: moments.post.changed

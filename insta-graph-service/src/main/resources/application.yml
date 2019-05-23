@@ -13,6 +13,9 @@ spring:
       kafka:
         binder:
           brokers: localhost:9092
+          configuration:
+            key:
+              deserializer: org.apache.kafka.common.serialization.StringDeserializer
         bindings:
           momentsUserChanged:
             consumer:
