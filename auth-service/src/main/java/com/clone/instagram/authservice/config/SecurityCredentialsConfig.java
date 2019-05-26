@@ -1,12 +1,12 @@
 package com.clone.instagram.authservice.config;
 
 
+import com.clone.instagram.authservice.model.Role;
 import com.clone.instagram.authservice.service.JwtTokenProvider;
 import com.clone.instagram.authservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
@@ -38,6 +38,12 @@ public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userService;
 
+    @Value("${security.service.username}")
+    private String serviceUsername;
+
+    @Value("${security.service.password}")
+    private String servicePassword;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -58,6 +64,14 @@ public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
     // In addition, we need to define the password encoder also. So, auth manager can compare and verify passwords.
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        // Configure in-memory authentication provider for service accounts for
+        // service inter-communication
+        auth.inMemoryAuthentication()
+                .withUser(serviceUsername)
+                .password(passwordEncoder().encode(servicePassword))
+                .roles(Role.SERVICE.getName());
+
+        // Configure DB authentication provider for user accounts
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 

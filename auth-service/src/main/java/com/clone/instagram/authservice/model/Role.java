@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class Role {
 
     public final static Role USER = new Role("USER");
+    public final static Role SERVICE = new Role("SERVICE");
 
     private String name;
 }

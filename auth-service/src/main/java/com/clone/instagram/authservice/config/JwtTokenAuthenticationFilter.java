@@ -1,26 +1,18 @@
 package com.clone.instagram.authservice.config;
 
 import com.clone.instagram.authservice.model.InstaUserDetails;
-import com.clone.instagram.authservice.model.Role;
 import com.clone.instagram.authservice.service.JwtTokenProvider;
 import com.clone.instagram.authservice.service.UserService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
-import static java.util.stream.Collectors.toList;
 
 public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
