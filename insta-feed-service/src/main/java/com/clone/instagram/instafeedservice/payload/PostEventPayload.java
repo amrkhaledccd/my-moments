@@ -1,8 +1,9 @@
-package com.clone.instagram.instapostservice.payload;
+package com.clone.instagram.instafeedservice.payload;
 
-import com.clone.instagram.instapostservice.messaging.PostEventType;
+import com.clone.instagram.instafeedservice.messaging.PostEventType;
 import lombok.Builder;
 import lombok.Data;
+
 import java.time.Instant;
 
 @Data
@@ -17,4 +18,5 @@ public class PostEventPayload {
     private String imageUrl;
     private String caption;
     private PostEventType eventType;
+
 }
