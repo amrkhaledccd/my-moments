@@ -5,6 +5,7 @@ import com.clone.instagram.instagraphservice.model.User;
 import com.clone.instagram.instagraphservice.payload.ApiResponse;
 import com.clone.instagram.instagraphservice.payload.FollowRequest;
 import com.clone.instagram.instagraphservice.service.UserService;
+import com.clone.instagram.instagraphservice.util.AppConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -68,6 +69,15 @@ public class UserApi {
     @GetMapping("/users/{username}/followers")
     public ResponseEntity<?> findFollowers(@PathVariable String username) {
         return ResponseEntity.ok(userService.findFollowers(username));
+    }
+
+    @GetMapping("/users/paginated/{username}/followers")
+    public ResponseEntity<?> findFollowersPaginated(
+            @PathVariable String username,
+            @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
+
+        return ResponseEntity.ok(userService.findPaginatedFollowers(username, page, size));
     }
 
     @GetMapping("/users/{username}/following")
