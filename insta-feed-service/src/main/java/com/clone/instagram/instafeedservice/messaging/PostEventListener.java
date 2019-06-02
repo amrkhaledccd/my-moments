@@ -2,7 +2,7 @@ package com.clone.instagram.instafeedservice.messaging;
 
 import com.clone.instagram.instafeedservice.model.Post;
 import com.clone.instagram.instafeedservice.payload.PostEventPayload;
-import com.clone.instagram.instafeedservice.service.FeedService;
+import com.clone.instagram.instafeedservice.service.FeedGeneratorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.kafka.support.Acknowledgment;
@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class PostEventListener {
 
-    private FeedService feedService;
+    private FeedGeneratorService feedService;
 
-    public PostEventListener(FeedService feedService) {
+    public PostEventListener(FeedGeneratorService feedService) {
         this.feedService = feedService;
     }
 
@@ -54,11 +54,7 @@ public class PostEventListener {
                 .builder()
                 .postId(payload.getId())
                 .createdAt(payload.getCreatedAt())
-//                .updatedAt(payload.getUpdatedAt())
                 .username(payload.getUsername())
-//                .lastModifiedBy(payload.getLastModifiedBy())
-//                .imageUrl(payload.getImageUrl())
-//                .caption(payload.getCaption())
                 .build();
     }
 }

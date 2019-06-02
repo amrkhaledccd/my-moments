@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class FeedService {
+public class FeedGeneratorService {
 
     @Autowired private AuthServiceClient authClient;
     @Autowired private ServiceLoginRequest serviceLoginRequest;
