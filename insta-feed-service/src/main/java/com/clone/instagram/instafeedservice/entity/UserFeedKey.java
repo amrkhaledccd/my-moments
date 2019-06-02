@@ -3,6 +3,7 @@ package com.clone.instagram.instafeedservice.entity;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
+import org.springframework.data.cassandra.core.mapping.Indexed;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 
@@ -15,6 +16,7 @@ public class UserFeedKey {
     private String userId;
 
     @PrimaryKeyColumn(name = "username", ordinal = 1 )
+    @Indexed
     private String username;
 
     @PrimaryKeyColumn(name = "post_id", ordinal = 2)
