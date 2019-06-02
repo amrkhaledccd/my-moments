@@ -3,6 +3,12 @@ spring:
   application:
     name: insta-feed
 
+  data:
+    cassandra:
+      keyspaceName: insta_feed
+      contactPoints: localhost
+      port: 9042
+
   cloud:
     stream:
       kafka:

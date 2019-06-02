@@ -54,11 +54,11 @@ public class PostEventListener {
                 .builder()
                 .postId(payload.getId())
                 .createdAt(payload.getCreatedAt())
-                .updatedAt(payload.getUpdatedAt())
+//                .updatedAt(payload.getUpdatedAt())
                 .username(payload.getUsername())
-                .lastModifiedBy(payload.getLastModifiedBy())
-                .imageUrl(payload.getImageUrl())
-                .caption(payload.getCaption())
+//                .lastModifiedBy(payload.getLastModifiedBy())
+//                .imageUrl(payload.getImageUrl())
+//                .caption(payload.getCaption())
                 .build();
     }
 }

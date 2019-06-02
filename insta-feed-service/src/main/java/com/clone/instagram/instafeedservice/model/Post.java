@@ -9,12 +9,7 @@ import java.time.Instant;
 @Builder
 public class Post {
 
-    private String id;
     private String postId;
     private Instant createdAt;
-    private Instant updatedAt;
     private String username;
-    private String lastModifiedBy;
-    private String imageUrl;
-    private String caption;
 }

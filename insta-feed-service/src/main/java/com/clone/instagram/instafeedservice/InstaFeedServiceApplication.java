@@ -8,6 +8,7 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
+
 @SpringBootApplication
 @EnableBinding(PostEventStream.class)
 @EnableFeignClients
