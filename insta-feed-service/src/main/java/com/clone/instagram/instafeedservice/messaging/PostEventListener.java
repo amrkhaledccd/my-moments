@@ -14,10 +14,10 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class PostEventListener {
 
-    private FeedGeneratorService feedService;
+    private FeedGeneratorService feedGeneratorService;
 
     public PostEventListener(FeedGeneratorService feedService) {
-        this.feedService = feedService;
+        this.feedGeneratorService = feedService;
     }
 
     @StreamListener(PostEventStream.INPUT)
@@ -36,7 +36,7 @@ public class PostEventListener {
 
         switch (eventType) {
             case CREATED:
-                feedService.addToFeed(convertTo(message.getPayload()));
+                feedGeneratorService.addToFeed(convertTo(message.getPayload()));
                 break;
             case UPDATED:
                 break;
