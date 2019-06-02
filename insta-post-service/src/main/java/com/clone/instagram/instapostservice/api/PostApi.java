@@ -65,4 +65,14 @@ public class PostApi {
 
         return ResponseEntity.ok(posts);
     }
+
+    @PostMapping("/posts/in")
+    public ResponseEntity<?> findPostsByIdIn(@RequestBody List<String> ids) {
+        log.info("retrieving posts for {} ids", ids.size());
+
+        List<Post> posts = postService.postsByIdIn(ids);
+        log.info("found {} posts", posts.size());
+
+        return ResponseEntity.ok(posts);
+    }
 }

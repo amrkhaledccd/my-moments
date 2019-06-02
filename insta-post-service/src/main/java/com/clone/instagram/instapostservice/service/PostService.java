@@ -60,4 +60,8 @@ public class PostService {
     public List<Post> postsByUsername(String username) {
         return postRepository.findByUsernameOrderByCreatedAtDesc(username);
     }
+
+    public List<Post> postsByIdIn(List<String> ids) {
+        return postRepository.findByIdIn(ids);
+    }
 }
