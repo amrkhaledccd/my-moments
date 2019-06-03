@@ -28,7 +28,7 @@ public class FeedGeneratorService {
 
     public void addToFeed(Post post) {
         log.info("adding post {} to feed for user {}" ,
-                post.getUsername(), post.getPostId());
+                post.getUsername(), post.getId());
 
         String token = tokenService.getAccessToken();
 
@@ -73,7 +73,7 @@ public class FeedGeneratorService {
                         .builder()
                         .userId(user.getUserId())
                         .username(user.getUsername())
-                        .postId(post.getPostId())
+                        .postId(post.getId())
                         .build())
                 .createdAt(post.getCreatedAt())
                 .build();

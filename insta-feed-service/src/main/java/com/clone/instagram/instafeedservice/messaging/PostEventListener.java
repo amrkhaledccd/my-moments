@@ -52,7 +52,7 @@ public class PostEventListener {
     private Post convertTo(PostEventPayload payload) {
         return Post
                 .builder()
-                .postId(payload.getId())
+                .id(payload.getId())
                 .createdAt(payload.getCreatedAt())
                 .username(payload.getUsername())
                 .build();
