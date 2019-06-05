@@ -17,7 +17,7 @@ import java.util.List;
 public interface PostServiceClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/posts/in")
-    List<Post> findPostsByIdIn(
+    ResponseEntity<List<Post>> findPostsByIdIn(
             @RequestHeader("Authorization") String token,
             @RequestBody List<String> ids);
 

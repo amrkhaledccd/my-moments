@@ -1,6 +1,5 @@
 package com.clone.instagram.instafeedservice.service;
 
-import com.clone.instagram.instafeedservice.client.AuthServiceClient;
 import com.clone.instagram.instafeedservice.client.GraphServiceClient;
 import com.clone.instagram.instafeedservice.config.JwtConfig;
 import com.clone.instagram.instafeedservice.entity.UserFeed;
