@@ -1,0 +1,35 @@
+.feed-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  margin-top: 40px;
+}
+
+.user-avatar {
+  display: flex;
+  justify-content: center;
+}
+
+.feed-user-avatar-circle {
+  width: 60px;
+  height: 60px;
+}
+
+.feed-user-details-container {
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+.feed-username {
+  font-weight: 600;
+  color: #262626;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.feed-name {
+  font-size: 12px;
+  line-height: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
