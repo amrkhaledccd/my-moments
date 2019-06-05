@@ -1,6 +1,5 @@
 package com.clone.instagram.instafeedservice.api;
 
-import com.clone.instagram.instafeedservice.entity.UserFeed;
 import com.clone.instagram.instafeedservice.model.Post;
 import com.clone.instagram.instafeedservice.payload.SlicedResult;
 import com.clone.instagram.instafeedservice.service.FeedService;
