@@ -9,4 +9,6 @@ cd ../insta-media-service
 cd ../insta-post-service
 ./run.sh &
 cd ../insta-graph-service
+./run.sh &
+cd ../insta-feed-service
 ./run.sh
