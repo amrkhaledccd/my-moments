@@ -36,12 +36,14 @@ class AppHeader extends Component {
               </Link>
             </div>
           </Col>
+
           <Col span={6}>
             <Search />
           </Col>
           <Col span={2}>
             <NewPost onGetUserPosts={this.props.onGetUserPosts} />
           </Col>
+
           <Col span={8} push={4}>
             <Menu
               mode="horizontal"

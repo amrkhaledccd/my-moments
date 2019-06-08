@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import LoadingIndicator from "../common/LoadingIndicator";
 import { Route, withRouter, Switch } from "react-router-dom";
-import { Layout } from "antd";
+import { Layout, Affix } from "antd";
 import AppHeader from "../common/AppHeader";
 import Login from "../user/login/Login";
 import Signup from "../user/signup/Signup";
@@ -89,14 +89,16 @@ class App extends Component {
 
     if (this.state.isAuthenticated) {
       layoutHeader = (
-        <Header>
-          <AppHeader
-            isAuthenticated={this.state.isAuthenticated}
-            currentUser={this.state.currentUser}
-            onGetUserPosts={this.handleGetUserPosts}
-            {...this.props}
-          />
-        </Header>
+        <Affix offsetTop={0}>
+          <Header>
+            <AppHeader
+              isAuthenticated={this.state.isAuthenticated}
+              currentUser={this.state.currentUser}
+              onGetUserPosts={this.handleGetUserPosts}
+              {...this.props}
+            />
+          </Header>
+        </Affix>
       );
     }
 

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import "./newsfeed.css";
-import { Row, Col, Avatar, Card, Icon, Input, Empty } from "antd";
+import { Row, Col, Avatar, Card, Empty } from "antd";
 import { ACCESS_TOKEN } from "../../common/constants";
+import PostList from "./PostList";
 
 class NewsFeed extends Component {
   state = { currentUser: { ...this.props.currentUser } };
@@ -17,32 +18,9 @@ class NewsFeed extends Component {
       <div className="feed-container">
         <Row>
           <Col span={16}>
-            <Card bodyStyle={{ padding: 0 }} className="post-card">
-              <div className="post-user-container">
-                <Avatar
-                  src={this.state.currentUser.profilePicture}
-                  className="post-user-avatar-circle"
-                />
-                <span className="post-username">AmrKhaled</span>
-              </div>
-              <div>
-                <img
-                  className="post-img"
-                  src="http://amr-hp-probook-450-g2:8000/images/amrkhaled/ed03dc30-26fa-4298-bfff-c3557ac32523.jpg"
-                />
-              </div>
-              <div className="post-actions">
-                <Icon type="heart" />
-                <Icon type="message" />
-                <Icon type="upload" />
-                <Icon type="book" className="post-action-book" />
-              </div>
-              <div className="comment-input-container">
-                <Input placeholder="Add comment" />
-              </div>
-            </Card>
+            <PostList currentUser={this.state.currentUser} />
           </Col>
-          <Col span={8}>
+          <Col className="feed-user-detail-col" span={8}>
             <Row>
               <Col span={6}>
                 <div className="user-avatar">

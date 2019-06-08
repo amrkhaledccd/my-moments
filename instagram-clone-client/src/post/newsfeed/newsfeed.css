@@ -34,57 +34,7 @@
   white-space: nowrap;
 }
 
-.post-user-details-container {
-  margin: 0 auto;
-  margin-top: 10px;
-}
-
-.post-card {
-  width: 96%;
-  margin-bottom: 40px;
-}
-
-.post-img {
-  width: 100%;
-}
-
-.post-user-container {
-  padding: 12px;
-}
-
-.post-username {
-  font-weight: 600;
-  color: #262626;
-  font-size: 14px;
-  line-height: 18px;
-  margin-left: 10px;
-}
-
-.post-actions {
-  padding: 10px 10px 10px 15px;
-}
-
-.post-actions i {
-  font-size: 32px;
-  margin-right: 15px;
-  cursor: pointer;
-}
-
-.post-action-book {
-  float: right;
-}
-
-.comment-input-container {
-  border-top: 1px solid #f0f0f0;
-  width: 100%;
-  height: 50px;
-}
-
-.comment-input-container input {
-  height: 100%;
-  border: 0px;
-}
-
-.comment-input-containerinput input:focus {
-  border: 0px !important;
+.feed-user-detail-col {
+  position: sticky;
+  top: 125px;
 }
