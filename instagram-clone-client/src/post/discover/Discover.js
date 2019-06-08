@@ -41,8 +41,8 @@ class Discover extends Component {
 
     var settings = {
       infinite: false,
-      slidesToShow: 4,
-      slidesToScroll: 4
+      slidesToShow: 5,
+      slidesToScroll: 5
     };
 
     return (
@@ -57,7 +57,7 @@ class Discover extends Component {
               <div>
                 <Card
                   hoverable
-                  style={{ width: 240 }}
+                  style={{ width: 230 }}
                   cover={
                     <div
                       onClick={() => this.handleOnCardClick(user.username)}

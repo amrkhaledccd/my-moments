@@ -32,7 +32,7 @@ class PostGrid extends Component {
           dataSource={this.props.posts}
           renderItem={item => (
             <List.Item>
-              <img width="293" height="293" alt={item.id} src={item.imageUrl} />
+              <img width="375" height="375" alt={item.id} src={item.imageUrl} />
             </List.Item>
           )}
         />
