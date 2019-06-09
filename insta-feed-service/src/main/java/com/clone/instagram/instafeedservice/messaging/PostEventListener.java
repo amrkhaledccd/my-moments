@@ -53,6 +53,7 @@ public class PostEventListener {
                 .id(payload.getId())
                 .createdAt(payload.getCreatedAt())
                 .username(payload.getUsername())
+                .profilePic(payload.getProfilePic())
                 .build();
     }
 }

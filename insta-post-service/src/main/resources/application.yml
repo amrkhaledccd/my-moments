@@ -37,3 +37,7 @@ security:
     prefix: Bearer
     expiration: 86400
     secret: JwtSecretKey
+
+  service:
+    username: d245ef53-5ad5-4216-9c56-89fe0f8302a0
+    password: ef919ae4-b893-4969-b782-57978180ad33

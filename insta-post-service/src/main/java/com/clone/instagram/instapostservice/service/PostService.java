@@ -1,10 +1,12 @@
 package com.clone.instagram.instapostservice.service;
 
+import com.clone.instagram.instapostservice.config.JwtConfig;
 import com.clone.instagram.instapostservice.exception.NotAllowedException;
 import com.clone.instagram.instapostservice.exception.ResourceNotFoundException;
 import com.clone.instagram.instapostservice.messaging.PostEventSender;
 import com.clone.instagram.instapostservice.model.Post;
 import com.clone.instagram.instapostservice.payload.PostRequest;
+import com.clone.instagram.instapostservice.payload.UserSummary;
 import com.clone.instagram.instapostservice.repository.PostRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +18,20 @@ import java.util.List;
 @Slf4j
 public class PostService {
 
-    @Autowired
-    private PostRepository postRepository;
+    @Autowired private PostRepository postRepository;
+    @Autowired private AuthService authService;
+    @Autowired private PostEventSender postEventSender;
+    @Autowired private JwtConfig jwtConfig;
 
-    @Autowired
-    private PostEventSender postEventSender;
 
-    public Post createPost(PostRequest postRequest) {
+    public Post createPost(PostRequest postRequest, String authHeader) {
         log.info("creating post image url {}", postRequest.getImageUrl());
 
+        String token = authHeader.replace(jwtConfig.getPrefix(), "");
+        UserSummary userSummary = authService.getUserSummary(jwtConfig.getPrefix() + token);
+
         Post post = new Post(postRequest.getImageUrl(), postRequest.getCaption());
+        post.setProfilePic(userSummary.getProfilePicture());
 
         post = postRepository.save(post);
         postEventSender.sendPostCreated(post);
@@ -64,4 +70,5 @@ public class PostService {
     public List<Post> postsByIdIn(List<String> ids) {
         return postRepository.findByIdInOrderByCreatedAtDesc(ids);
     }
+
 }
