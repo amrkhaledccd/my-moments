@@ -3,7 +3,10 @@ package com.clone.instagram.instafeedservice.entity;
 import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
+import org.springframework.data.cassandra.core.cql.Ordering;
+import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
+import org.springframework.data.cassandra.core.mapping.Indexed;
+import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 import org.springframework.data.cassandra.core.mapping.Table;
 
 import java.time.Instant;
@@ -14,6 +17,16 @@ import java.time.Instant;
 @ToString
 public class UserFeed {
 
-    @PrimaryKey private UserFeedKey key;
+    @PrimaryKeyColumn(name = "user_id", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
+    private String userId;
+
+    @Indexed
+    @PrimaryKeyColumn(name = "username", ordinal = 1 )
+    private String username;
+
+    @PrimaryKeyColumn(name = "post_id", ordinal = 2)
+    private String postId;
+
+    @PrimaryKeyColumn(name = "created_at", ordinal = 3, ordering = Ordering.DESCENDING)
     private Instant createdAt;
 }

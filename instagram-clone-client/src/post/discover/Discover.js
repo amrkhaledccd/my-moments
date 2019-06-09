@@ -41,8 +41,8 @@ class Discover extends Component {
 
     var settings = {
       infinite: false,
-      slidesToShow: 5,
-      slidesToScroll: 5
+      slidesToShow: 4,
+      slidesToScroll: 4
     };
 
     return (

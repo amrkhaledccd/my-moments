@@ -38,8 +38,6 @@ public class PostEventListener {
             case CREATED:
                 feedGeneratorService.addToFeed(convertTo(message.getPayload()));
                 break;
-            case UPDATED:
-                break;
             case DELETED:
                 break;
         }

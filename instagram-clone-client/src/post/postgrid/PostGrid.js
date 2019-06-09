@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Empty, List } from "antd";
 import LoadingIndicator from "../../common/LoadingIndicator";
+import "./postgrid.css";
 
 class PostGrid extends Component {
   state = { isLoading: false };
@@ -32,7 +33,9 @@ class PostGrid extends Component {
           dataSource={this.props.posts}
           renderItem={item => (
             <List.Item>
-              <img width="375" height="375" alt={item.id} src={item.imageUrl} />
+              <div className="img-container">
+                <img alt={item.id} src={item.imageUrl} />
+              </div>
             </List.Item>
           )}
         />

@@ -34,7 +34,8 @@ public class FeedService {
                         .of(PageRequest.of(0, AppConstants.PAGE_SIZE), PagingState.fromString(pState)))
                 .orElse(CassandraPageRequest.first(AppConstants.PAGE_SIZE));
 
-        Slice<UserFeed> page = feedRepository.findByKeyUsername(username, request);
+        Slice<UserFeed> page =
+                feedRepository.findByUsername(username, request);
 
         if(page.isEmpty()) {
             throw new ResourceNotFoundException(
@@ -48,7 +49,7 @@ public class FeedService {
         }
 
         List<String> postIds = page.stream()
-                .map(feed -> feed.getKey().getPostId())
+                .map(feed -> feed.getPostId())
                 .collect(Collectors.toList());
 
         List<Post> posts = postService.findPostsIn(postIds);

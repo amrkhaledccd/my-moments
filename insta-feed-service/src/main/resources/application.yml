@@ -8,6 +8,7 @@ spring:
       keyspaceName: insta_feed
       contactPoints: localhost
       port: 9042
+      schema-action: CREATE_IF_NOT_EXISTS
 
   cloud:
     stream:

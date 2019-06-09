@@ -8,5 +8,5 @@ import org.springframework.data.domain.Slice;
 
 public interface FeedRepository extends CassandraRepository<UserFeed, String> {
 
-    Slice<UserFeed> findByKeyUsername(String username, Pageable pageable);
+    Slice<UserFeed> findByUsername(String username, Pageable pageable);
 }

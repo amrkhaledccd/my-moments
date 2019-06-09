@@ -3,7 +3,6 @@ package com.clone.instagram.instafeedservice.service;
 import com.clone.instagram.instafeedservice.client.GraphServiceClient;
 import com.clone.instagram.instafeedservice.config.JwtConfig;
 import com.clone.instagram.instafeedservice.entity.UserFeed;
-import com.clone.instagram.instafeedservice.entity.UserFeedKey;
 import com.clone.instagram.instafeedservice.exception.UnableToGetFollowersException;
 import com.clone.instagram.instafeedservice.model.Post;
 import com.clone.instagram.instafeedservice.model.User;
@@ -68,12 +67,9 @@ public class FeedGeneratorService {
     private UserFeed convertTo(User user, Post post) {
         return UserFeed
                 .builder()
-                .key(UserFeedKey
-                        .builder()
-                        .userId(user.getUserId())
-                        .username(user.getUsername())
-                        .postId(post.getId())
-                        .build())
+                .userId(user.getUserId())
+                .username(user.getUsername())
+                .postId(post.getId())
                 .createdAt(post.getCreatedAt())
                 .build();
     }
