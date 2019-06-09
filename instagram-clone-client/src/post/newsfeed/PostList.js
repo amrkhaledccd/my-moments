@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Avatar, Card, Icon, Input, List } from "antd";
 import InfiniteScroll from "react-infinite-scroller";
 import { getFeed } from "../../util/ApiUtil";
+import LoadingIndicator from "../../common/LoadingIndicator";
 import "./postlist.css";
 
 class PostList extends Component {
@@ -89,11 +90,7 @@ class PostList extends Component {
         pageStart={0}
         loadMore={this.handleInfiniteOnLoad}
         hasMore={!this.state.loading && this.state.hasMore}
-        loader={
-          <div className="loader" key={0}>
-            Loading ...
-          </div>
-        }
+        loader={<LoadingIndicator />}
       >
         <List
           dataSource={this.state.feed}

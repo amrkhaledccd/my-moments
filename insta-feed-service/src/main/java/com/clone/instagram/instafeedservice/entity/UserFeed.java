@@ -24,9 +24,9 @@ public class UserFeed {
     @PrimaryKeyColumn(name = "username", ordinal = 1 )
     private String username;
 
-    @PrimaryKeyColumn(name = "post_id", ordinal = 2)
-    private String postId;
-
-    @PrimaryKeyColumn(name = "created_at", ordinal = 3, ordering = Ordering.DESCENDING)
+    @PrimaryKeyColumn(name = "created_at", ordinal = 2, ordering = Ordering.DESCENDING)
     private Instant createdAt;
+
+    @PrimaryKeyColumn(name = "post_id", ordinal = 3)
+    private String postId;
 }

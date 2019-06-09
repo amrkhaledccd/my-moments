@@ -62,6 +62,6 @@ public class PostService {
     }
 
     public List<Post> postsByIdIn(List<String> ids) {
-        return postRepository.findByIdIn(ids);
+        return postRepository.findByIdInOrderByCreatedAtDesc(ids);
     }
 }

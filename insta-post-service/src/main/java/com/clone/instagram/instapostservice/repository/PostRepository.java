@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface PostRepository extends MongoRepository<Post, String> {
     List<Post> findByUsernameOrderByCreatedAtDesc(String username);
-    List<Post> findByIdIn(List<String> ids);
+    List<Post> findByIdInOrderByCreatedAtDesc(List<String> ids);
 }
