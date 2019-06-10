@@ -54,3 +54,11 @@ security:
   service:
     username: d245ef53-5ad5-4216-9c56-89fe0f8302a0
     password: ef919ae4-b893-4969-b782-57978180ad33
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
