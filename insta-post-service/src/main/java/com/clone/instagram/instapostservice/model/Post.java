@@ -25,8 +25,6 @@ public class Post {
     @CreatedBy
     private String username;
 
-    private String profilePic;
-
     @LastModifiedBy
     private String lastModifiedBy;
 

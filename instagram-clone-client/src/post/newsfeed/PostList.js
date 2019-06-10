@@ -63,7 +63,7 @@ class PostList extends Component {
       <List.Item className="post-list-item ">
         <Card bodyStyle={{ padding: 0 }} className="post-card">
           <div className="post-user-container">
-            <Avatar src={item.profilePic} className="post-user-avatar-circle" />
+            <Avatar src={item.userPic} className="post-user-avatar-circle" />
             <span className="post-username">{item.username}</span>
           </div>
           <div>

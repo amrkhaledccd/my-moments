@@ -58,7 +58,6 @@ public class PostEventSender {
                 .eventType(eventType)
                 .id(post.getId())
                 .username(post.getUsername())
-                .profilePic(post.getProfilePic())
                 .caption(post.getCaption())
                 .createdAt(post.getCreatedAt())
                 .updatedAt(post.getUpdatedAt())

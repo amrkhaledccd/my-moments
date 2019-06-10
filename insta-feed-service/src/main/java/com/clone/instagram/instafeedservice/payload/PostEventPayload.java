@@ -14,7 +14,6 @@ public class PostEventPayload {
     private Instant createdAt;
     private Instant updatedAt;
     private String username;
-    private String profilePic;
     private String lastModifiedBy;
     private String imageUrl;
     private String caption;

@@ -25,12 +25,10 @@ public class PostApi {
     private PostService postService;
 
     @PostMapping("/posts")
-    public ResponseEntity<?> createPost(
-            @RequestHeader("Authorization") String authorizatio,
-            @RequestBody PostRequest postRequest){
+    public ResponseEntity<?> createPost(@RequestBody PostRequest postRequest){
         log.info("received a request to create a post for image {}", postRequest.getImageUrl());
 
-        Post post = postService.createPost(postRequest, authorizatio);
+        Post post = postService.createPost(postRequest);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/posts/{id}")

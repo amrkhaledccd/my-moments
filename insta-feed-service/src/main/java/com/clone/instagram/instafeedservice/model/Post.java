@@ -15,7 +15,6 @@ public class Post {
     private String id;
     private Instant createdAt;
     private String username;
-    private String profilePic;
     private Instant updatedAt;
     private String lastModifiedBy;
     private String imageUrl;
