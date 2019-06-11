@@ -14,9 +14,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.*;
+import static java.util.stream.Collectors.toList;
+
 
 @Service
 @Slf4j
@@ -24,6 +24,7 @@ public class FeedService {
 
     @Autowired private FeedRepository feedRepository;
     @Autowired private PostService postService;
+    @Autowired private AuthService authService;
 
     public SlicedResult<Post> getUserFeed(String username, Optional<String> pagingState) {
 
@@ -45,14 +46,11 @@ public class FeedService {
         String pageState = null;
 
         if(!page.isLast()) {
-           pageState = ((CassandraPageRequest)page.getPageable()).getPagingState().toString();
+           pageState = ((CassandraPageRequest)page.getPageable())
+                   .getPagingState().toString();
         }
 
-        List<String> postIds = page.stream()
-                .map(feed -> feed.getPostId())
-                .collect(Collectors.toList());
-
-        List<Post> posts = postService.findPostsIn(postIds);
+        List<Post> posts = getPosts(page);
 
         return SlicedResult
                 .<Post>builder()
@@ -60,5 +58,29 @@ public class FeedService {
                 .isLast(page.isLast())
                 .pagingState(pageState)
                 .build();
+    }
+
+    private List<Post> getPosts(Slice<UserFeed> page) {
+
+        String token = authService.getAccessToken();
+
+        List<String> postIds = page.stream()
+                .map(feed -> feed.getPostId())
+                .collect(toList());
+
+        List<Post> posts = postService.findPostsIn(token, postIds);
+
+        List<String> usernames = posts.stream()
+                .map(Post::getUsername)
+                .distinct()
+                .collect(toList());
+
+        Map<String, String> usersProfilePics =
+                authService.usersProfilePic(token, new ArrayList<>(usernames));
+
+        posts.forEach(post -> post.setUserProfilePic(
+                usersProfilePics.get(post.getUsername())));
+
+        return posts;
     }
 }

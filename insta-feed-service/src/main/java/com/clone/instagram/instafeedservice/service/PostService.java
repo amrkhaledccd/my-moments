@@ -1,6 +1,7 @@
 package com.clone.instagram.instafeedservice.service;
 
 import com.clone.instagram.instafeedservice.client.PostServiceClient;
+import com.clone.instagram.instafeedservice.config.JwtConfig;
 import com.clone.instagram.instafeedservice.exception.UnableToGetPostsException;
 import com.clone.instagram.instafeedservice.model.Post;
 import lombok.extern.slf4j.Slf4j;
@@ -14,16 +15,14 @@ import java.util.List;
 @Slf4j
 public class PostService {
 
-    @Autowired private TokenService tokenService;
     @Autowired private PostServiceClient postServiceClient;
+    @Autowired private JwtConfig jwtConfig;
 
-    public List<Post> findPostsIn(List<String> ids) {
+    public List<Post> findPostsIn(String token, List<String> ids) {
         log.info("finding posts for ids {}", ids);
 
-        String token = tokenService.getAccessToken();
-
         ResponseEntity<List<Post>> response =
-                postServiceClient.findPostsByIdIn("Bearer " + token, ids);
+                postServiceClient.findPostsByIdIn(jwtConfig.getPrefix() + token, ids);
 
         if(response.getStatusCode().is2xxSuccessful()) {
             return response.getBody();

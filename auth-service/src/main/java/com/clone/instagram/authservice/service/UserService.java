@@ -40,6 +40,10 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    public List<User> findByUsernameIn(List<String> usernames) {
+        return userRepository.findByUsernameIn(usernames);
+    }
+
     public User registerUser(User user) {
         log.info("registering user {}", user.getUsername());
 

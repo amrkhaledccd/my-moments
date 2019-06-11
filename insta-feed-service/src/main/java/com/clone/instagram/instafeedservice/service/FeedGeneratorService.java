@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class FeedGeneratorService {
 
-    @Autowired private TokenService tokenService;
+    @Autowired private AuthService tokenService;
     @Autowired private GraphServiceClient graphClient;
     @Autowired private JwtConfig jwtConfig;
     @Autowired private FeedRepository feedRepository;

@@ -33,12 +33,11 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public String getUsernameFromJWT(String token) {
+    public Claims getClaimsFromJWT(String token) {
         return Jwts.parser()
                 .setSigningKey(jwtConfig.getSecret().getBytes())
                 .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+                .getBody();
     }
 
     public boolean validateToken(String authToken) {

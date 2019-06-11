@@ -23,6 +23,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
@@ -134,13 +136,32 @@ public class UserEndpoint {
 
         return  userService
                 .findByUsername(username)
-                .map(user -> ResponseEntity.ok(UserSummary
-                        .builder()
-                        .id(user.getId())
-                        .username(user.getUsername())
-                        .name(user.getUserProfile().getDisplayName())
-                        .profilePicture(user.getUserProfile().getProfilePictureUrl())
-                        .build()))
+                .map(user -> ResponseEntity.ok(convertTo(user)))
                 .orElseThrow(() -> new ResourceNotFoundException(username));
+    }
+
+    @PostMapping(value = "/users/summary/in", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getUserSummaries(@RequestBody List<String> usernames) {
+        log.info("retrieving summaries for {} usernames", usernames.size());
+
+        List<UserSummary> summaries =
+                userService
+                        .findByUsernameIn(usernames)
+                        .stream()
+                        .map(user -> convertTo(user))
+                        .collect(Collectors.toList());
+
+        return ResponseEntity.ok(summaries);
+
+    }
+
+    private UserSummary convertTo(User user) {
+        return UserSummary
+                .builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .name(user.getUserProfile().getDisplayName())
+                .profilePicture(user.getUserProfile().getProfilePictureUrl())
+                .build();
     }
 }
