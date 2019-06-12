@@ -11,7 +11,7 @@ Instagram is will known for everybody but I'm cloning the basic features of Inst
   - User get notified when others follow him, comment or like his post
   - User can search for other Users
   
-  [![Watch the video](https://img.youtube.com/vi/jEfU0cxG-Bw/maxresdefault.jpg)](https://www.youtube.com/watch?v=jEfU0cxG-Bw)
+  [![Watch the video](![Screenshot](screenshots/thumbnail.png))](https://www.youtube.com/watch?v=jEfU0cxG-Bw)
 # Screenshots
 
 This will be updated later but for now I wil add some screenshots of the progress
