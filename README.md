@@ -5,7 +5,7 @@ Instagram Clone - Cloning Instagram for learning purpose
 Microservices - Java - Spring boot - Spring Cloud - JWT authentication - MongoDB - Cassandra - Neo4j - Kafka - ReactJs - Ant Design 
 
 # What am I doing?
-Instagram is will known for everybody but I'm cloning the basic features of Instagram and other social networks.
+Instagram is well known for everybody but I'm cloning the basic features of Instagram and other social networks.
   - User have a profile
   - User can follow other users
   - User can see his followers and following
