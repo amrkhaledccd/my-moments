@@ -1,6 +1,9 @@
 # my-moments
 Instagram Clone - Cloning Instagram for learning purpose 
 
+# Tutorials
+https://medium.com/@amrkhaled_47016/microservices-in-practice-developing-instagram-clone-introduction-4f6d78abdfa1
+
 # Target Architecture
 We are not there yet, we still outside Kubernetes
 
