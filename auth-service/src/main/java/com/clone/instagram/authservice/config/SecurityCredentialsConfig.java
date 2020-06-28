@@ -38,10 +38,10 @@ public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userService;
 
-    @Value("${security.service.username}")
+    @Value("${security.service.username:test}")
     private String serviceUsername;
 
-    @Value("${security.service.password}")
+    @Value("${security.service.password:test}")
     private String servicePassword;
 
     @Override

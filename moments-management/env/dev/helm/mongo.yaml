@@ -1,0 +1,4 @@
+usePassword: true
+mongodbRootPassword: "123456"
+persistence:
+  size: 5Gi

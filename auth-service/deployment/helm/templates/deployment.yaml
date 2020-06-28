@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "helm.fullname" . }}
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "helm.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "helm.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "helm.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag}}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: spring.cloud.stream.kafka.binder.brokers
+              value: {{ .Values.env.kafka.brokers }}
+            - name: spring.data.mongodb.host
+              value: {{ .Values.env.mongo.host }}
+            - name: spring.data.mongodb.user
+              value: {{ .Values.env.mongo.user }}
+            - name: spring.data.mongodb.password
+              valueFrom:
+                secretKeyRef:
+                  name: insta-mongo-mongodb
+                  key: {{ .Values.env.mongo.password }}
+            - name: security.jwt.secret
+              valueFrom:
+                secretKeyRef:
+                  name: insta-secrets
+                  key: {{ .Values.env.security.jwt.secret }}
+            - name: security.service.username
+              valueFrom:
+                secretKeyRef:
+                  name: insta-secrets
+                  key: {{ .Values.env.security.service.username }}
+            - name: security.service.password
+              valueFrom:
+                secretKeyRef:
+                  name: insta-secrets
+                  key: {{ .Values.env.security.service.password }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

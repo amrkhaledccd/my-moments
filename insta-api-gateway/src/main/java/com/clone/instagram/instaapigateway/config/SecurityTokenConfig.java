@@ -40,6 +40,7 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
                 // allow all who are accessing "auth" service
                 .antMatchers(HttpMethod.POST, "/auth/signin").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/users").anonymous()
+                .antMatchers(HttpMethod.GET, "/notification/subscription").permitAll()
                 // Any other request must be authenticated
                 .anyRequest().authenticated();
     }

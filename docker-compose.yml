@@ -27,15 +27,15 @@ services:
       - 27017:27017
     volumes:
       - /home/amr/instaMongo:/data/db
-  neo4j:
-    image: neo4j:latest
-    ports:
-     - "7474:7474"
-     - "7687:7687"
-  cassandra:
-    image: cassandra:latest
-    ports:
-      - "7000:7000"
-      - "9042:9042"
-    volumes:
-      - /home/amr/instaCassandra:/var/lib/cassandra
+  # neo4j:
+  #   image: neo4j:latest
+  #   ports:
+  #    - "7474:7474"
+  #    - "7687:7687"
+  # cassandra:
+  #   image: cassandra:latest
+  #   ports:
+  #     - "7000:7000"
+  #     - "9042:9042"
+  #   volumes:
+  #     - /home/amr/instaCassandra:/var/lib/cassandraz

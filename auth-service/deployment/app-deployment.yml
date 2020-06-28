@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: insta-auth
+   labels:
+    app: insta-auth
+spec:
+   replicas: 1
+   selector:
+    matchLabels:
+      app: insta-auth
+   template:
+      metadata:
+       labels:
+        app: insta-auth
+      spec:
+       containers:
+        - name: insta-auth
+          image: amrkhaled/insta-auth:1.0.17
+          env:
+          - name: spring.cloud.stream.kafka.binder.brokers
+            value: insta-kafka
+          - name: spring.data.mongodb.host
+            value: insta-mongo-mongodb
+          - name: spring.data.mongodb.user
+            value: root
+          - name: spring.data.mongodb.password
+            valueFrom:
+              secretKeyRef:
+                name: insta-mongo-mongodb
+                key: mongodb-root-password
+          - name: security.jwt.secret
+            valueFrom:
+              secretKeyRef:
+                name: insta-secrets
+                key: security.jwt.secret
+          - name: security.service.username
+            valueFrom:
+              secretKeyRef:
+                name: insta-secrets
+                key: security.service.username
+          - name: security.service.password
+            valueFrom:
+              secretKeyRef:
+                name: insta-secrets
+                key: security.service.password
+          ports:
+           - containerPort: 8080
+             protocol: TCP

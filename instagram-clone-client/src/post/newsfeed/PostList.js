@@ -10,7 +10,7 @@ class PostList extends Component {
     currentUser: { ...this.props.currentUser },
     pagingState: null,
     hasMore: false,
-    loading: false,
+    loading: true,
     feed: []
   };
 
@@ -24,10 +24,14 @@ class PostList extends Component {
         this.setState({
           hasMore: !res.last,
           feed: res.content,
-          pagingState: res.pagingState
+          pagingState: res.pagingState,
+          loading: false
         });
       })
       .catch(error => {
+        this.setState({
+          loading: false
+        });
         console.log("error: " + error);
       });
   };

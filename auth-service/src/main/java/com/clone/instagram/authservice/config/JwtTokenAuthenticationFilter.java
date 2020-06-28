@@ -4,7 +4,6 @@ import com.clone.instagram.authservice.model.InstaUserDetails;
 import com.clone.instagram.authservice.service.JwtTokenProvider;
 import com.clone.instagram.authservice.service.UserService;
 import io.jsonwebtoken.Claims;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -77,7 +76,6 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
                                         .stream()
                                         .map(SimpleGrantedAuthority::new)
                                         .collect(toList()));
-
             } else {
 
                 auth = userService

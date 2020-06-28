@@ -8,6 +8,7 @@ import com.clone.instagram.authservice.model.Role;
 import com.clone.instagram.authservice.repository.UserRepository;
 import com.clone.instagram.authservice.model.User;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.HashSet;
@@ -18,17 +19,14 @@ import java.util.Optional;
 @Slf4j
 public class UserService {
 
+    @Autowired
     private PasswordEncoder passwordEncoder;
-    private UserRepository userRepository;
-    private UserEventSender userEventSender;
 
-    public UserService(UserRepository userRepository,
-                       PasswordEncoder passwordEncoder,
-                       UserEventSender userEventSender) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.userEventSender = userEventSender;
-    }
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private UserEventSender userEventSender;
 
     public List<User> findAll() {
         log.info("retrieving all users");

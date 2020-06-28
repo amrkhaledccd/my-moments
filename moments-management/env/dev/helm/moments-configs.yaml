@@ -1,0 +1,18 @@
+
+env:
+  security:
+    jwt:
+      uri: "/auth/**"
+      prefix: "Bearer "
+      expiration: "\"86400\""
+      header: "Authorization"
+      secret: Snd0U2VjcmV0S2V5
+    service:
+      username: ZWY5MTlhZTQtYjg5My00OTY5LWI3ODItNTc5NzgxODBhZDMz
+      password: JDJ5JDEyJDlOQVdxT2FFQmVtaVBVaWRQLjU5VHVsL0RpeU10NmpsT0MxUEFXQTNCcXNvbWo0bFYzZUxl
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

@@ -12,7 +12,7 @@ import { ACCESS_TOKEN } from "../common/constants";
 import MeProfile from "../user/profile/MeProfile";
 import Profile from "../user/profile/Profile";
 import Discover from "../post/discover/Discover";
-import { getCurrentUserPosts } from "../util/ApiUtil";
+import { getCurrentUserPosts, subscribe } from "../util/ApiUtil";
 
 const { Header, Content } = Layout;
 
@@ -34,6 +34,11 @@ class App extends Component {
     getCurrentUser()
       .then(response => {
         console.log("Current profile picture: " + response.profilePicture);
+
+        subscribe(response.username, event =>
+          console.log("recieved notification: " + event.followerUsername)
+        );
+
         this.setState({
           currentUser: response,
           isAuthenticated: true,

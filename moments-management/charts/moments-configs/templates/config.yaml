@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: moments-configs
+data:
+  security.jwt.uri: {{ .Values.env.security.jwt.uri }}
+  security.jwt.header: {{ .Values.env.security.jwt.header }}
+  security.jwt.prefix: {{ .Values.env.security.jwt.prefix }}
+  security.jwt.expiration: {{ .Values.env.security.jwt.expiration }}

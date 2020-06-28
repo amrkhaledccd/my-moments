@@ -22,6 +22,9 @@ spring:
               startOffset: latest
               autoCommitOffset: false
       bindings:
+        momentsNotifications:
+          destination: moments.notifications
+          contentType: application/json
         momentsUserChanged:
           destination: moments.user.changed
           contentType: application/json

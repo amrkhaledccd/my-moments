@@ -1,0 +1,9 @@
+authEnabled: true
+neo4jPassword: "123456"
+core:
+  numberOfServers: 1
+  persistentVolume:
+    size: 5Gi
+readReplica:
+  minReplicas: 1
+  maxReplicas: 1

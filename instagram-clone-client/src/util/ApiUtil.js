@@ -207,3 +207,10 @@ export function getFeed(username, pagingState) {
     method: "GET"
   });
 }
+
+export function subscribe(username, eventHandler) {
+  const eventSource = new EventSource(
+    API_BASE_URL + "/notification/subscription"
+  );
+  eventSource.addEventListener(username, eventHandler);
+}

@@ -1,0 +1,19 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority: /home/amr/.minikube/ca.crt
+    server: https://192.168.99.107:8443
+  name: minikube
+contexts:
+- context:
+    cluster: minikube
+    user: minikube
+  name: minikube
+current-context: ""
+kind: Config
+preferences: {}
+users:
+- name: minikube
+  user:
+    client-certificate: /home/amr/.minikube/client.crt
+    client-key: /home/amr/.minikube/client.key

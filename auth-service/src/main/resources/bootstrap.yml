@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: insta-auth
+
+  cloud:
+    kubernetes:
+      reload:
+        period: 1000
+        enabled: true
+      config:
+        enabled: true
+        name: insta-configs
+        namespace: default
+        sources:
+          - name: insta-configs
+
+management:
+  endpoint:
+    restart:
+      enabled: true

@@ -148,11 +148,10 @@ public class UserEndpoint {
                 userService
                         .findByUsernameIn(usernames)
                         .stream()
-                        .map(user -> convertTo(user))
+                        .map(this::convertTo)
                         .collect(Collectors.toList());
 
         return ResponseEntity.ok(summaries);
-
     }
 
     private UserSummary convertTo(User user) {

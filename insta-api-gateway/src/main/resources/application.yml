@@ -33,6 +33,10 @@ zuul:
       path: /feed/**
       service-id: insta-feed
       sensitive-headers: Cookie,Set-Cookie
+    insta-notification:
+      path: /notification/**
+      service-id: insta-notification
+      sensitive-headers: Cookie,Set-Cookie
 
 ribbon:
   ConnectTimeout: 60000
