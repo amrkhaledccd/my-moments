@@ -7,7 +7,7 @@ https://medium.com/@amrkhaled_47016/microservices-in-practice-developing-instagr
 # Target Architecture
 We are not there yet, we still outside Kubernetes
 
-![Tareget architecture](https://raw.githubusercontent.com/amrkhaledccd/my-moments/master/screenshots/mymoments_architecture.png)
+![Architecture](https://raw.githubusercontent.com/amrkhaledccd/my-moments/master/screenshots/mymoments_architecture.png)
 # Tech stack
 Microservices - Java - Spring boot - Spring Cloud - JWT authentication - MongoDB - Cassandra - Neo4j - Kafka - ReactJs - Ant Design 
 
