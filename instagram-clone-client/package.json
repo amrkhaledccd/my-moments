@@ -8,7 +8,7 @@
     "react-dom": "^16.8.6",
     "react-infinite-scroller": "^1.2.4",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "2.1.8",
+    "react-scripts": "5.0.1",
     "react-slick": "^0.24.0"
   },
   "scripts": {
